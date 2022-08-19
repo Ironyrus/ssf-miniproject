@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Traffic Cam</title>
+        <link th:href="styles.css" rel="stylesheet" /> <!-- CSS files must be under static folder-->
+        <script type="text/javascript" th:src="@{actions.js}"></script>
+    </head>
+    <body>
+        <p>Camera View: </p>
+        <p th:text="${camLocation}"></p>
+        <p>Nearby Locations: </p>
+        <p th:text="${nearbyLocations}"></p>
+        
+        <p>Image Size: </p>
+        <form   action="#"
+                th:action="@{/showTrafficCam}" 
+                method="post" 
+                th:object="${options}">
+                    <input type="hidden" th:field="*{option}" th:value="${camLocation}" />
+                    <input type="hidden" name="imgSize" value="100px" />
+                    <input type="submit" value="small" />
+        </form>
+        <form   action="#"
+                th:action="@{/showTrafficCam}" 
+                method="post" 
+                th:object="${options}">
+                    <input type="hidden" th:field="*{option}" th:value="${camLocation}" />
+                    <input type="hidden" name="imgSize" value="400px" />
+                    <input type="submit" value="regular" />
+        </form>
+        <form   action="#"
+                th:action="@{/showTrafficCam}" 
+                method="post" 
+                th:object="${options}">
+                    <input type="hidden" th:field="*{option}" th:value="${camLocation}" />
+                    <input type="hidden" name="imgSize" value="auto" />
+                    <input type="submit" value="original" />
+        </form>
+
+        <br><br>
+
+        <div id="logo"><img th:src="${image}" id="logo" th:height="${height}" /></div>
+        <p th:text="${timestamp}"></p>
+        <br>
+
+        <h2>Map View:</h2>
+        <iframe
+            width="600"
+            height="450"
+            style="border:0;"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            th:src="@{${'https://www.google.com/maps/embed/v1/place?key=AIzaSyCCUlFKP1vQQfII96xT6CYiOV2Vx20drdc&q=' + lat + ',' + lon}}">
+        </iframe>
+
+
+        <br>
+        <form action="/" style="display:block;float:none">    
+            <button>Home</button>
+        </form>
+
+    </body>
+</html>

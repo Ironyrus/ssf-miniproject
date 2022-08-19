@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <style>
+        .floatH{
+            position:fixed;
+            width:60px;
+            height:60px;
+            bottom:40px;
+            right:40px;
+            background-color:#0C9;
+            color:#FFF;
+            border-radius:50px;
+            text-align:center;
+            box-shadow: 2px 2px 3px #999;
+        }
+        .floatS{
+            position:fixed;
+            width:60px;
+            height:60px;
+            bottom:120px;
+            right:40px;
+            background-color:#0C9;
+            color:#FFF;
+            border-radius:50px;
+            text-align:center;
+            box-shadow: 2px 2px 3px #999;
+        }
+        /* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: orange;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: orange;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+/* ie the "Tick" within the box */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+    </style>
+</head>
+<body>
+
+    <form
+    th:action="@{/dashboardSave}"
+    method="post">
+    <!-- FIRST TABLE -->
+    <table class="table table-bordered table-light" 
+    style="width:min-content;
+            margin-left:auto;
+            margin-right:auto;
+            float:left">
+        <tr th:each="eaOption : *{options1.options}">
+            <ul >
+                <td >
+                    Camera Id:
+                    <code><li class="list-group-item"><span th:text="${eaOption.option}"></span></li></code>
+                    <br>
+                    Nearby Locations:
+                    <li class="list-group-item"><span th:text="${eaOption.optionNearbyLocations}"></span></li>
+                    <img th:src="${eaOption.imgUrl}" id="logo" th:height="200px" />
+                </td>
+                <td >                
+                    <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" name="id" th:value="${eaOption.option}" />  
+                    <label class="form-check-label" >Save</label></div>
+                </td>
+            </ul>
+        </tr>
+        
+    </table>
+    <!-- SECOND TABLE -->
+    <table class="table table-bordered table-light" 
+        style="width:min-content">
+        <tr th:each="eaOption : *{options2.options}">
+            <ul >
+                <td >
+                    Camera Id:
+                    <code><li class="list-group-item"><span th:text="${eaOption.option}"></span></li></code>
+                    <br>
+                    Nearby Locations:
+                    <li class="list-group-item"><span th:text="${eaOption.optionNearbyLocations}"></span></li>
+                    <img th:src="${eaOption.imgUrl}" id="logo" th:height="200px" />
+                </td>
+                <td >                
+                    <div >
+                      
+                    <label name="id" class="container" style="display:flexbox">
+                        Save
+                        <input type="checkbox"  name="id" th:value="${eaOption.option}" >
+                        <span class="checkmark"></span>
+                    </label>
+
+                </div>
+                </td>
+            </ul>
+        </tr>
+    </table>
+    <button class="floatH" style="bottom:300px;right:150px;border-radius:0px;">GO</button>
+    </form>
+    
+
+    <br><br>
+    <form action="/">    
+        <button class="floatH">Home</button>
+    </form>
+    <form action="/">    
+        <button class="floatS">Save</button>
+    </form>
+
+    <!-- style tag overwrites the style tags in <head> -->
+    <div class="floatH" style="bottom:210px;right:150px;border-radius:0px;">
+        <form>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Username" />
+                <label for="floatingInput">Username</label>
+            </div>
+            <input type="submit" />
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+body {
+    background-color: powderblue;
+  }
+h1 {
+    color: Red;
+    size:5px;
+  }
+p {
+    color: blue;
+  }
+
+/* img {  
+  size: 400px;
+  height:70%; 
+  width: 70%; 
+  border: solid 2px orange;
+  position:relative;
+  display:inline;
+  } */
+
+  div {
+    position: relative;
+    display: inline;
+  } 
+
+  form {
+    display: inline;
+  }
+
+  .northSg {
+    position: absolute;
+    right: 50%;
+    bottom: 450px;
+  }
+
+  .southSg {
+    position: absolute;
+    right: 50%;
+    bottom: 200px;
+  }
+
+  .centralSg {
+    position: absolute;
+    right: 50%;
+    bottom: 325px;
+  }
+
+  .eastSg {
+    position: absolute;
+    right: 75%;
+    bottom: 325px;
+  }
+
+  .westSg {
+    position: absolute;
+    right: 25%;
+    bottom: 325px;
+  }
