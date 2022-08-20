@@ -59,15 +59,24 @@ import trafficweatherapp.project.Services.redisService;
 public class currencyWeatherController {
 
     private String currApiKey = System.getenv("FIXER_API_KEY");
+    private String key = System.getenv("MYVERYOWN_API_KEY");
 
     @Autowired
     redisService service;
 
-    @GetMapping
-    public String getHome(Model model) {
+    @GetMapping("/")
+    public String block(Model model) {
+        return "preindex";
+    }
+
+    @GetMapping("/accessgranted")
+    public String getHome(Model model, @RequestParam("password") String password) {
         List<options> optionList = getCameraList();
         model.addAttribute("options", new options(optionList));
-        return "index";
+        if(password.equals(key))
+            return "index";
+        else
+            return "preindex";
     }
 
     @GetMapping("/showWeather")
