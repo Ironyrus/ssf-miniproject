@@ -60,6 +60,7 @@ public class currencyWeatherController {
 
     private String currApiKey = System.getenv("FIXER_API_KEY");
     private String key = System.getenv("MYVERYOWN_API_KEY");
+    private String googApiKey = System.getenv("GOOGLE_API_KEY");
 
     @Autowired
     redisService service;
@@ -128,6 +129,7 @@ public class currencyWeatherController {
         model.addAttribute("nearbyLocations", nearbyLocations);
         model.addAttribute("lat", camera.get("lat"));
         model.addAttribute("lon", camera.get("long"));
+        model.addAttribute("apikey", googApiKey);
         //service.save(camera.get("timestamp") + " | " + options.getOption().trim() + " | " + camera.get("image")); //works
         //service.deleteAll(); //works
         return "showTrafficCam";

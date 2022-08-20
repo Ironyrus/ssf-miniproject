@@ -142,19 +142,4 @@ public class egg {
 		return map;
 	}
 
-	public void newMet() {
-		URI url = null;
-        try {
-            url = new URI("https://fixturedownload.com/feed/json/epl-2022");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        RestTemplate template = new RestTemplate();
-        ResponseEntity<User[]> resp = template.getForEntity("https://fixturedownload.com/feed/json/epl-2022", User[].class);
-        User[] userArray = resp.getBody();
-        for (User user : userArray) {
-            System.out.println("Away: "+ user.getAwayTeam());
-        }
-	}
-
 }

@@ -54,7 +54,7 @@
             loading="lazy"
             allowfullscreen
             referrerpolicy="no-referrer-when-downgrade"
-            th:src="@{${'https://www.google.com/maps/embed/v1/place?key=AIzaSyCCUlFKP1vQQfII96xT6CYiOV2Vx20drdc&q=' + lat + ',' + lon}}">
+            th:src="@{${'https://www.google.com/maps/embed/v1/place?key=' + apikey + '&q=' + lat + ',' + lon}}">
         </iframe>
 
 
