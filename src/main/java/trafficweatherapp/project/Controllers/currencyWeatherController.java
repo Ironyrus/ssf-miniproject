@@ -66,6 +66,7 @@ public class currencyWeatherController {
 
     @GetMapping("/")
     public String block(Model model) {
+        
         return "preindex";
     }
 
