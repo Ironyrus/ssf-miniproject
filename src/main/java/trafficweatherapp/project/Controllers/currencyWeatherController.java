@@ -58,8 +58,7 @@ import trafficweatherapp.project.Services.redisService;
 @Controller
 public class currencyWeatherController {
 
-    //private String currApiKey = System.getenv("FIXER_API_KEY");
-    private String currApiKey = "tJa1Wng47Ln52O1H7lA8hHHUitlX6s6o";
+    private String currApiKey = System.getenv("FIXER_API_KEY");
 
     @Autowired
     redisService service;
