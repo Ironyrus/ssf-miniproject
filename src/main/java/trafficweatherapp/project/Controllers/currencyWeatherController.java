@@ -42,10 +42,10 @@ import trafficweatherapp.project.Services.weatherService;
 public class currencyWeatherController {
 
     private String currApiKey = System.getenv("FIXER_API_KEY");
-    private String key = System.getenv("MYVERYOWN_API_KEY");
-    // String key = "";
-    private String googApiKey = System.getenv("GOOGLE_API_KEY");
-    // String googApiKey="";
+    // private String key = System.getenv("MYVERYOWN_API_KEY");
+    String key = "poncoco";
+    // private String googApiKey = System.getenv("GOOGLE_API_KEY");
+    String googApiKey="AIzaSyCCUlFKP1vQQfII96xT6CYiOV2Vx20drdc";
     
     @Autowired
     redisService service;
@@ -292,9 +292,6 @@ public class currencyWeatherController {
                     //Getting HH from forecastObj 
                     tempStart = startPeriodStr.split(" ");
                     tempEnd = endPeriodStr.split(" ");
-                    
-                    System.out.println(tempStart[3]);
-                    System.out.println(tempEnd[3]);
 
                     //Between 6am and 12pm
                     if(6 <= HH & HH <= 12 & tempStart[3].contains("6") & tempEnd[3].contains("12")){
@@ -324,7 +321,6 @@ public class currencyWeatherController {
                         model.addAttribute("button3", "Afternoon");
                         model.addAttribute("startPeriod", startPeriodStr);
                         model.addAttribute("endPeriod", endPeriodStr);
-                        System.out.println("Hello " + count);
                         if(count == 4)
                             break;
                     //Between 6pm and 6am                    
