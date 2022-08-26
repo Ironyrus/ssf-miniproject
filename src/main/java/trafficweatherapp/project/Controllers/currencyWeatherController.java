@@ -660,7 +660,7 @@ public class currencyWeatherController {
                     options opt = new options(userCameras);
                     service.saveOptions(username, opt);
                 } 
-                options oppo = new options();
+                options oppo = new options(userCameras);
                 oppo.setOptions(optionList);
                 service.saveOptions(username, oppo);
                 // else if(keys.contains(username)){
