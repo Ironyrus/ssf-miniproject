@@ -14,6 +14,7 @@ git push origin main                        (push to main branch)
 
 import java.io.File;
 import java.io.FileReader;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -161,6 +163,7 @@ public class currencyWeatherController {
                     SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
                     Date date = new Date(System.currentTimeMillis());
                     formatter.format(date);
+                    formatter.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
                     String[] temp = (date + "").split(" ");
                     int HH = Integer.parseInt(temp[3].substring(0, 2));
 
@@ -168,7 +171,8 @@ public class currencyWeatherController {
                     end = ((HashMap<String,String>)forecastObj.getPeriods().get(i).get("time")).get("end");
 
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
-                    
+                    df.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+
                     startPeriod = null;
                     endPeriod = null;
                     String startPeriodStr = "";
@@ -229,6 +233,7 @@ public class currencyWeatherController {
             }
 
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+            df.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
             startPeriod = null;
             endPeriod = null;
             String startPeriodStr = "";
@@ -269,6 +274,7 @@ public class currencyWeatherController {
     //Helper class for above method
     public Date[] getStartandEnd(String start, String end) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+        df.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
         Date startPeriod = null;
         Date endPeriod = null;
         try {
