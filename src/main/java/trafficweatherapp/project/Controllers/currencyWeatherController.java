@@ -48,7 +48,7 @@ import trafficweatherapp.project.Services.weatherService;
 @Controller
 public class currencyWeatherController {
 
-    // private String currApiKey = System.getenv("FIXER_API_KEY");
+    private String currApiKey = System.getenv("FIXER_API_KEY");
     private String key = System.getenv("MYVERYOWN_API_KEY");
     // String key = "";
     private String googApiKey = System.getenv("GOOGLE_API_KEY");
@@ -300,6 +300,9 @@ public class currencyWeatherController {
                     tempStart = startPeriodStr.split(" ");
                     tempEnd = endPeriodStr.split(" ");
                     
+                    System.out.println(startPeriodStr);
+                    System.out.println(endPeriodStr);
+
                     //Between 6am and 12pm
                     if(6 <= HH & HH <= 12 & tempStart[3].contains("6") & tempEnd[3].contains("12") & i == 0){
                         model.addAttribute("url" + j, w[j]);
@@ -395,6 +398,7 @@ public class currencyWeatherController {
         String temp2End = dt.timeFormat(tempTimeEnd);
         String endPeriodStr = tempEnd1 + ", " + temp2End;
 
+        System.out.println(startPeriodStr + " | " + endPeriodStr);
         // DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
         // Date startP = null;
         // Date endP = null;

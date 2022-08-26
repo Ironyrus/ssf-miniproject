@@ -85,7 +85,8 @@ public class dateTimeService {
         } else {
             if(HH == 12)
                 ampm = "pm";
-            ampm = "am";
+            else
+                ampm = "am";
         }
         
         return HH + time.substring(2) + ampm;
