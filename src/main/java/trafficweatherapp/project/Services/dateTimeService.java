@@ -83,6 +83,8 @@ public class dateTimeService {
             HH = HH - 12;
             ampm = "pm";
         } else {
+            if(HH == 12)
+                ampm = "pm";
             ampm = "am";
         }
         
