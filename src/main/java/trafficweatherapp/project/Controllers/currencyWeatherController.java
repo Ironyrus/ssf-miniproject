@@ -656,7 +656,7 @@ public class currencyWeatherController {
                 if(!keys.contains(username)) {
                     options opt = new options(userCameras);
                     service.saveOptions(username, opt);
-                } else if (service.getOptions(username).getOption() == null & keys.contains(username)) { 
+                } else if (service.getOptions(username).getOption().isEmpty() & keys.contains(username)) { 
                     options opt = new options(userCameras);
                     service.saveOptions(username, opt);
                 } 
