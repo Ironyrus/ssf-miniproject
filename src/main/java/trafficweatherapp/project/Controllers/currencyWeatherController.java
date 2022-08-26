@@ -644,7 +644,7 @@ public class currencyWeatherController {
                 List<options> userCameras = new ArrayList<>();
                 for (int i = 0; i < optionList.size(); i++) {
                     for (int j = 0; j < valuesFromCheckbox.size(); j++) {
-                        if(valuesFromCheckbox.get(j).equals(optionList.get(i).getOption())) {
+                        if((valuesFromCheckbox.get(j)).trim().equals((optionList.get(i).getOption()).trim())) {
                             userCameras.add(optionList.get(i));
                         }
                     }                    
@@ -660,8 +660,6 @@ public class currencyWeatherController {
                     options opt = new options(userCameras);
                     service.saveOptions(username, opt);
                 } 
-                options oppo = new options(userCameras);
-                service.saveOptions(username, oppo);
                 // else if(keys.contains(username)){
                 //     options currentOptions = service.getOptions(username);
                 //     List<options> optionsArray = currentOptions.getOptions();
