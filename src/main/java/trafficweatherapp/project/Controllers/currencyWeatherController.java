@@ -662,20 +662,21 @@ public class currencyWeatherController {
                 } else if (service.getOptions(username).getOptions().isEmpty() & keys.contains(username)) { 
                     service.saveOptions(username, new options(userCameras));
                 //If username exists, update contents to latest
-                } else if(keys.contains(username)){
-                    options currentOptions = service.getOptions(username);
-                    List<options> optionsArray = currentOptions.getOptions();
-                    List<options> optionsArray2 = new ArrayList<>();
+                } 
+                // else if(keys.contains(username)){
+                //     options currentOptions = service.getOptions(username);
+                //     List<options> optionsArray = currentOptions.getOptions();
+                //     List<options> optionsArray2 = new ArrayList<>();
 
-                    for (options option : optionsArray) { //For each current option
-                        for (int i = 0; i < optionList.size(); i++){
-                            if(optionList.get(i).getOption().equals(option.getOption())){
-                                optionsArray2.add(optionList.get(i));
-                            }
-                        }
-                    }
-                    service.saveOptions(username, new options(optionsArray2));
-                }
+                //     for (options option : optionsArray) { //For each current option
+                //         for (int i = 0; i < optionList.size(); i++){
+                //             if(optionList.get(i).getOption().equals(option.getOption())){
+                //                 optionsArray2.add(optionList.get(i));
+                //             }
+                //         }
+                //     }
+                //     service.saveOptions(username, new options(optionsArray2));
+                // }
 
                 //Get data from Redis
                 options gotOption = service.getOptions(username);
