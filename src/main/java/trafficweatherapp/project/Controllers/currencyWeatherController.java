@@ -14,20 +14,13 @@ git push origin main                        (push to main branch)
 
 import java.io.File;
 import java.io.FileReader;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.xml.SourceHttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,10 +42,10 @@ import trafficweatherapp.project.Services.weatherService;
 public class currencyWeatherController {
 
     private String currApiKey = System.getenv("FIXER_API_KEY");
-    private String key = System.getenv("MYVERYOWN_API_KEY");
-    // String key = "";
-    private String googApiKey = System.getenv("GOOGLE_API_KEY");
-    // String googApiKey="";
+    // private String key = System.getenv("MYVERYOWN_API_KEY");
+    String key = "poncoco";
+    // private String googApiKey = System.getenv("GOOGLE_API_KEY");
+    String googApiKey="AIzaSyCCUlFKP1vQQfII96xT6CYiOV2Vx20drdc";
     
     @Autowired
     redisService service;
@@ -295,48 +288,57 @@ public class currencyWeatherController {
                     // } catch (ParseException e) {
                     //     e.printStackTrace();
                     // }
-
+                    
                     //Getting HH from forecastObj 
                     tempStart = startPeriodStr.split(" ");
                     tempEnd = endPeriodStr.split(" ");
                     
-                    System.out.println(startPeriodStr);
-                    System.out.println(endPeriodStr);
+                    System.out.println(tempStart[3]);
+                    System.out.println(tempEnd[3]);
 
                     //Between 6am and 12pm
-                    if(6 <= HH & HH <= 12 & tempStart[3].contains("6") & tempEnd[3].contains("12") & i == 0){
+                    if(6 <= HH & HH <= 12 & tempStart[3].contains("6") & tempEnd[3].contains("12")){
                         model.addAttribute("url" + j, w[j]);
                         model.addAttribute("button1", "Morning");
                         model.addAttribute("button2", "Afternoon");
                         model.addAttribute("button3", "Night");
                         model.addAttribute("startPeriod", startPeriodStr);
                         model.addAttribute("endPeriod", endPeriodStr);
+                        if(count == 4)
+                            break;
                     //Between 1pm and 6pm
-                    } else if(12 <= HH & HH <= 18 & tempStart[3].contains("12") & tempEnd[3].contains("6") & i == 0){
+                    } else if(12 <= HH & HH <= 18 & tempStart[3].contains("12") & tempEnd[3].contains("6")){
                         model.addAttribute("url" + j, w[j]);
                         model.addAttribute("button1", "Afternoon");
                         model.addAttribute("button2", "Night");
                         model.addAttribute("button3", "Morning");
                         model.addAttribute("startPeriod", startPeriodStr);
                         model.addAttribute("endPeriod", endPeriodStr);
+                        if(count == 4)
+                            break;
                     //Between 12am and 6am
-                    } else if(0 <= HH & HH <= 6 & tempStart[3].contains("0") & tempEnd[3].contains("6") & i == 0) {
+                    } else if(tempStart[3].contains("0:00:00") & tempEnd[3].contains("6")) {
                         model.addAttribute("url" + j, w[j]);
                         model.addAttribute("button1", "Night");
                         model.addAttribute("button2", "Morning");
                         model.addAttribute("button3", "Afternoon");
                         model.addAttribute("startPeriod", startPeriodStr);
                         model.addAttribute("endPeriod", endPeriodStr);
-
+                        System.out.println("Hello " + count);
+                        if(count == 4)
+                            break;
                     //Between 6pm and 6am                    
-                    } else if (18 <= HH || HH <= 6 & tempStart[3].contains("18") & tempEnd[3].contains("6") & i == 0){ 
+                    } 
+                    else if ((18 <= HH || HH <= 6) & tempStart[3].contains("6") & tempEnd[3].contains("6")){ 
                         model.addAttribute("url" + j, w[j]);
                         model.addAttribute("button1", "Night");
                         model.addAttribute("button2", "Morning");
                         model.addAttribute("button3", "Afternoon");
                         model.addAttribute("startPeriod", startPeriodStr);
                         model.addAttribute("endPeriod", endPeriodStr);
-                    } 
+                        if(count == 4)
+                            break;
+                    }
                     count++;
                 }
             }
@@ -398,7 +400,6 @@ public class currencyWeatherController {
         String temp2End = dt.timeFormat(tempTimeEnd);
         String endPeriodStr = tempEnd1 + ", " + temp2End;
 
-        System.out.println(startPeriodStr + " | " + endPeriodStr);
         // DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
         // Date startP = null;
         // Date endP = null;
@@ -660,7 +661,22 @@ public class currencyWeatherController {
                 //If username exists but contents are empty, populate username with new options
                 } else if (service.getOptions(username).getOptions().isEmpty() & keys.contains(username)) { 
                     service.saveOptions(username, new options(userCameras));
-                }                
+                //If username exists, update contents to latest
+                }  
+                else if(keys.contains(username)){
+                    options currentOptions = service.getOptions(username);
+                    List<options> optionsArray = currentOptions.getOptions();
+                    List<options> optionsArray2 = new ArrayList<>();
+
+                    for (options option : optionsArray) { //For each current option
+                        for (int i = 0; i < optionList.size(); i++){
+                            if(optionList.get(i).getOption().equals(option.getOption())){
+                                optionsArray2.add(optionList.get(i));
+                            }
+                        }
+                    }
+                    service.saveOptions(username, new options(optionsArray2));
+                }
 
                 //Get data from Redis
                 options gotOption = service.getOptions(username);
