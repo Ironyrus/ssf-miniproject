@@ -655,7 +655,7 @@ public class currencyWeatherController {
                 ArrayList<String> keys = service.getKeys();
                 if(!keys.contains(username)) {
                     service.saveOptions(username, new options(userCameras));
-                } else if (service.getOptions(username).getOptions().isEmpty() & keys.contains(username)) { 
+                } else if (service.getOptions(username).getOptions().isEmpty() && keys.contains(username)) { 
                     service.saveOptions(username, new options(userCameras));
                 } 
                 // else if(keys.contains(username)){
