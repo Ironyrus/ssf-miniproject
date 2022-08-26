@@ -9,12 +9,22 @@
         <script type="text/javascript" th:src="@{actions.js}"></script>
     </head>
     <body>
+        <!-- If no option selected, inform users and provide a button to go back -->
+        <span th:if="${options.option == '0'}">
+            <h1 style="color:red"><span th:text="${message}"></span></h1>
+            <form action="accessgranted">
+                <input type="hidden" name="password" value="poncoco">
+                    <button>Back to Home</button>
+                </input>
+            </form>
+        </span>
+        
         <p>Camera View: </p>
         <p th:text="${camLocation}"></p>
         <p>Nearby Locations: </p>
         <p th:text="${nearbyLocations}"></p>
         
-        <p>Image Size: </p>
+        <p>Image Size: <span th:text="${height}"></span></p>
         <form   action="#"
                 th:action="@{/showTrafficCam}" 
                 method="post" 
@@ -54,9 +64,34 @@
             loading="lazy"
             allowfullscreen
             referrerpolicy="no-referrer-when-downgrade"
-            th:src="@{${'https://www.google.com/maps/embed/v1/place?key=' + apikey + '&q=' + lat + ',' + lon}}">
+            th:src="@{${'https://www.google.com/maps/embed/v1/place?key=' + apikey + '&q=' + lat + ',' + lon }}">
         </iframe>
 
+        <!-- From Sg to Jb  -->
+        <span th:if="${checkpoint == '2702: View from Woodlands Checkpoint (Towards BKE)'}">
+        <iframe
+            width="600"
+            height="450"
+            style="border:0;"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            th:src="@{${'https://www.google.com/maps/embed/v1/directions' + '?origin=place_id:ChIJcax8Ev0S2jER7fTRxrPHz2w&destination=johorbahruciq' + '&key=' + apikey}}">
+        </iframe>
+        </span> 
+
+        <!-- From Jb to Sg  -->
+        <span th:if="${ciq == '2701: View from Woodlands Causeway (Towards Johor)'}">
+            <iframe
+                width="600"
+                height="450"
+                style="border:0;"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade"
+                th:src="@{${'https://www.google.com/maps/embed/v1/directions' + '?origin=johorbahruciq&destination=place_id:ChIJcax8Ev0S2jER7fTRxrPHz2w' + '&key=' + apikey}}">
+            </iframe>
+            </span> 
 
         <br>
         <form action="/" style="display:block;float:none">    

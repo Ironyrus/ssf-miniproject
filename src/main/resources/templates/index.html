@@ -9,19 +9,24 @@
 </head>
 <body>
     <h1>Weather Now</h1>
-    <div style="display:flex;justify-content: center;">
-        <!-- https://www.nea.gov.sg/assets/images/icons/weather-bg/HR.png -->
-        <!-- https://www.nea.gov.sg/assets/images/icons/weather-bg/PC.png -->
-        <!-- https://www.nea.gov.sg/assets/images/icons/weather-bg/TL.png -->
-        <!-- https://www.nea.gov.sg/assets/images/icons/weather-bg/LR.png -->
-        <!-- https://www.nea.gov.sg/assets/images/icons/weather-bg/CL.png -->
+    <h2 style="display:flex;justify-content: center;">24-hour weather forecast</h2>
 
+    <form action="accessgranted">
+    <input type="hidden" name="password" value="poncoco">
+    <button name="timeOfDay" value="morning"><span th:text="${button1}"></span></button>
+    <button name="timeOfDay" value="afternoon"><span th:text="${button2}"></span></button>  
+    <button name="timeOfDay" value="night"><span th:text="${button3}"></span></button>
+    </form>
+    <p>Valid period:</p>
+    <p th:text="${startPeriod}"></p>
+    <p th:text="${endPeriod}"></p>
+    <div style="display:flex;justify-content: center;">
         <img src="https://www.nea.gov.sg/assets/images/map/sg-map-weather-forecast.png" alt="Sg Map">
-        <img src="https://www.nea.gov.sg/assets/images/icons/weather-bg/PC.png" class="northSg" alt="northIcon">
-        <img src="https://www.nea.gov.sg/assets/images/icons/weather-bg/PC.png" class="southSg" alt="southIcon">
-        <img src="https://www.nea.gov.sg/assets/images/icons/weather-bg/PC.png" class="centralSg" alt="centralIcon">
-        <img src="https://www.nea.gov.sg/assets/images/icons/weather-bg/PC.png" class="eastSg" alt="eastIcon">
-        <img src="https://www.nea.gov.sg/assets/images/icons/weather-bg/PC.png" class="westSg" alt="westIcon">
+        <img th:src="${url0}" class="northSg" alt="northIcon">
+        <img th:src="${url1}" class="southSg" alt="southIcon">
+        <img th:src="${url2}" class="centralSg" alt="centralIcon">
+        <img th:src="${url3}" class="eastSg" alt="eastIcon">
+        <img th:src="${url4}" class="westSg" alt="westIcon">
     </div>
     
     
@@ -33,12 +38,11 @@
         <!-- <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Show Traffic Cameras
           </button> -->
-        <form
-    action="#"
-    th:action="@{/showTrafficCam}"
-    th:object="${options}"
-    method="post"
-    class="dropdown-menu">
+        <form   action="#"
+                th:action="@{/showTrafficCam}"
+                th:object="${options}"
+                method="post"
+                class="dropdown-menu">
 
     <!-- 3.1 Option without selection -->
     <!-- https://www.baeldung.com/thymeleaf-select-option -->
@@ -46,7 +50,7 @@
         <option  value="0">select option</option>
         <!-- th:value will be returned to controller, will return to attribute mapped by th:field -->
         <option th:each="eaOption : *{options}" th:value="${eaOption.option}"><span th:text="${eaOption.getOption()}" class="dropdown-item"></span></option>
-    </select>        
+    </select>
     <input type="submit" value="show traffic camera" style="margin:2px" />
     <input type="hidden" name="imgSize" value="400px" />
     </form>
@@ -89,7 +93,7 @@
         <form
     action="#"
     th:action="@{/showTrafficCam}"
-    th:object="${options}"
+    th:object="${checkpointOptions}"
     method="post"
     class="dropdown-menu">
 

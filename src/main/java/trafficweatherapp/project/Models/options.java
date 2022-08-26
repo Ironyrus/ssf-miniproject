@@ -8,6 +8,9 @@ public class options {
     String option;
     String optionNearbyLocations;
     String imgUrl;
+    String timestamp;
+    String sortup;
+    String delete;
 
     public options() {
         
@@ -48,6 +51,37 @@ public class options {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getSortup() {
+        return sortup;
+    }
+
+    public void setSortup(String sortup) {
+        this.sortup = sortup;
+    }
+
+    public String getDelete() {
+        return delete;
+    }
+
+    public void setDelete(String delete) {
+        this.delete = delete;
+    }
+
+    @Override
+    public String toString() {
+        return "options [delete=" + delete + ", imgUrl=" + imgUrl + ", option=" + option + ", optionNearbyLocations="
+                + optionNearbyLocations + ", options=" + options + ", sortup=" + sortup + ", timestamp=" + timestamp
+                + "]";
     }
 
     

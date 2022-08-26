@@ -102,8 +102,9 @@
     </style>
 </head>
 <body>
-
-    <form
+    <div style="margin-left:20px;margin-top:10px">
+        <a href="#bottom" style="background-color:rgb(75, 97, 236);width:max-content" class="btn btn-primary mb-3">Go to Bottom</a>
+        <form
     th:action="@{/dashboardSave}"
     method="post">
     <!-- FIRST TABLE -->
@@ -121,9 +122,13 @@
                     Nearby Locations:
                     <li class="list-group-item"><span th:text="${eaOption.optionNearbyLocations}"></span></li>
                     <img th:src="${eaOption.imgUrl}" id="logo" th:height="200px" />
+                    Timestamp: 
+                    <li class="list-group-item"><span th:text="${eaOption.timestamp}"></span></li>
                 </td>
                 <td >                
                     <div class="form-check form-switch">
+                    <!-- This empty checkbox with value=empty makes it so that there is no error if none of the boxes are checked -->
+                    <input class="form-check-input" type="checkbox" name="id" th:value="test" checked />  
                     <input class="form-check-input" type="checkbox" name="id" th:value="${eaOption.option}" />  
                     <label class="form-check-label" >Save</label></div>
                 </td>
@@ -133,16 +138,21 @@
     </table>
     <!-- SECOND TABLE -->
     <table class="table table-bordered table-light" 
-        style="width:min-content">
+        style="width:min-content;margin-left:auto;
+        margin-right:auto;
+        float:left">
         <tr th:each="eaOption : *{options2.options}">
             <ul >
-                <td >
+                <td>
                     Camera Id:
                     <code><li class="list-group-item"><span th:text="${eaOption.option}"></span></li></code>
                     <br>
                     Nearby Locations:
                     <li class="list-group-item"><span th:text="${eaOption.optionNearbyLocations}"></span></li>
                     <img th:src="${eaOption.imgUrl}" id="logo" th:height="200px" />
+                    <div style="display:block">Timestamp: 
+                    <li class="list-group-item"><span th:text="${eaOption.timestamp}"></span></li>
+                </div>
                 </td>
                 <td >                
                     <div >
@@ -159,8 +169,21 @@
         </tr>
     </table>
     <button class="floatH" style="bottom:300px;right:150px;border-radius:0px;">GO</button>
-    </form>
+    <div class="form-floating mb-3" style="width:250px;position:fixed;top:10px;right:5px;"
+    >
+        <input type="text" class="form-control" name="username" id="floatingInput" placeholder="Username" />
+        <label for="floatingInput">Username</label>
+        <button style="background-color:rgb(75, 97, 236);width:max-content" class="btn btn-success btn-primary mb-3" >
+            Submit
+        </button>  
+    </div>   
     
+    <div style="width:250px;position:relative;bottom:5px;left:5px;">
+        <a href="#top" id="bottom" style="background-color:rgb(75, 97, 236);width:max-content" class="btn btn-primary mb-3">Go to Top</a>
+    </div>
+
+    </form>
+    </div>
 
     <br><br>
     <form action="/">    
@@ -171,15 +194,16 @@
     </form>
 
     <!-- style tag overwrites the style tags in <head> -->
-    <div class="floatH" style="bottom:210px;right:150px;border-radius:0px;">
-        <form>
+    <!-- <div class="floatH" style="bottom:210px;right:150px;border-radius:0px;">
+        <form th:action="@{/dashboardSave}" method="post">
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="Username" />
+                <input type="text" class="form-control" name="username" id="floatingInput" placeholder="Username" />
                 <label for="floatingInput">Username</label>
             </div>
             <input type="submit" />
         </form>
-    </div>
+    </div> -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 </html>

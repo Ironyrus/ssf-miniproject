@@ -1,4 +1,4 @@
-package trafficweatherapp.project.Services;
+package trafficweatherapp.project.Database;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import jakarta.json.JsonObject;
+import trafficweatherapp.project.Models.options;
 
 //https://docs.spring.io/spring-data/redis/docs/current/api/org/springframework/data/redis/core/RedisTemplate.html
 
 @Service
 public class redisService implements servicesRepo {
     
-    ArrayList<Integer> keys;
+    ArrayList<String> keys;
 
     //To save and retrieve normal HashMap, String etc form Redis
     // @Autowired
@@ -21,24 +22,34 @@ public class redisService implements servicesRepo {
 
     //To save and retrieve POJO from Redis
     @Autowired
-    RedisTemplate<String, Object> redisTemplate;
+    RedisTemplate<String, options> redisTemplate;
 
     @Override
     public void deleteAll() {
         this.keys = getKeys();
-        for (Integer key : keys) {
-            redisTemplate.delete(key + ""); //Deleting key. Casting from integer to String (Since Redis keys are String)
+        for (String key : keys) {
+            redisTemplate.delete(key); //Deleting key. Casting from integer to String (Since Redis keys are String)
         }
     }
 
     //Helper class to get all keys from database
-    public ArrayList<Integer> getKeys() {
+    public ArrayList<String> getKeys() {
         Set<String> redisKeys = redisTemplate.keys("*"); //Pattern is * for ALL keys. Getting all keys.
-        ArrayList<Integer> keys = new ArrayList<>();
+        ArrayList<String> keys = new ArrayList<>();
         for (String item : redisKeys) {
-            keys.add(Integer.parseInt(item));
+            keys.add(item);
         }
         return keys;
+    }
+
+    @Override
+    public void saveOptions(String username, options options) {
+        redisTemplate.opsForValue().set(username, options);
+    }
+
+    @Override
+    public options getOptions(String username) {
+        return redisTemplate.opsForValue().get(username);
     }
 
     // @Override

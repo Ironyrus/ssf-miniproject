@@ -17,14 +17,13 @@ import trafficweatherapp.project.Models.geoloc;
 import trafficweatherapp.project.Models.googCode;
 import trafficweatherapp.project.Models.trafficCamObj;
 import trafficweatherapp.project.Models.weatherObj;
-import trafficweatherapp.project.Services.User;
 
 public class egg {
 
 	public String country;
 	public String coordinates;
 	private String googleApiKey = System.getenv("GOOGLE_API_KEY");;
-	private String currApiKey = "tJa1Wng47Ln52O1H7lA8hHHUitlX6s6o";
+	private String currApiKey;
 	private String weatherApiKey = System.getenv("WEATHER_API_KEY");
 
 	@Autowired
@@ -68,12 +67,12 @@ public class egg {
 		geoloc = Arrays.stream(objects)
   				.collect(Collectors.toList()).get(0);
 
-		System.out.println(geoloc.getName());
-		System.out.println(geoloc.getCountry());
-		System.out.println(geoloc.getLat() + ", " + geoloc.getLon());
+		// System.out.println(geoloc.getName());
+		// System.out.println(geoloc.getCountry());
+		// System.out.println(geoloc.getLat() + ", " + geoloc.getLon());
 
-		System.out.println(Arrays.stream(objects)
-		.collect(Collectors.toList()).size());
+		// System.out.println(Arrays.stream(objects)
+		// .collect(Collectors.toList()).size());
 		return geoloc.getLat() + ", " + geoloc.getLon();
 	}
 
@@ -87,13 +86,13 @@ public class egg {
    			template.getForEntity(("https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=" + weatherApiKey),
 						 weatherObj.class);
 		
-		System.out.println(responseEntity.getStatusCode());
-		System.out.println(responseEntity.getBody().getName());
-		System.out.println(responseEntity.getBody().getCoord());
-		System.out.println(responseEntity.getBody().getWeather());
+		// System.out.println(responseEntity.getStatusCode());
+		// System.out.println(responseEntity.getBody().getName());
+		// System.out.println(responseEntity.getBody().getCoord());
+		// System.out.println(responseEntity.getBody().getWeather());
 		double temp = (double)responseEntity.getBody().getMain().get("temp");
 		double temp2 = Double.parseDouble(temp+"");
-		System.out.println(temp2 + " degrees celcius");
+		// System.out.println(temp2 + " degrees celcius");
 		return responseEntity.getBody();
 	}
 
@@ -122,13 +121,13 @@ public class egg {
 			camera.put("coords", latitude+","+longitude);
 			camera.put("image", image);
 			cameraHash.add(camera);
-			System.out.println("Camera Id: " + camera.get("camId") + " | Timestamp: " + camera.get("timestamp") + " | Latitude: " + camera.get("lat") + " | Longitude: " + camera.get("long") + " | " + camera.get("coords") + " | image: " + image);
+			// System.out.println("Camera Id: " + camera.get("camId") + " | Timestamp: " + camera.get("timestamp") + " | Latitude: " + camera.get("lat") + " | Longitude: " + camera.get("long") + " | " + camera.get("coords") + " | image: " + image);
 			count++;
 		}
-		System.out.println("Images: " + count);
+		// System.out.println("Images: " + count);
 
 		for (HashMap camera : cameraHash) {
-			System.out.println(camera.get("lat") + "," + camera.get("long"));
+			// System.out.println(camera.get("lat") + "," + camera.get("long"));
 		}
 
 		for (HashMap camera : cameraHash) {
@@ -138,7 +137,7 @@ public class egg {
 		}
 		HashMap map = new HashMap<>();
 		map.put("cameras", cameras);
-		// return cameras.get(0);
+		//If option is any specific camera, return the specific camera. If not, return all cameras.
 		return map;
 	}
 

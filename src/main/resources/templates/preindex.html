@@ -9,18 +9,31 @@
 </head>
 <body>
 
-    <div style="display:inline">
-    <img style="width:min-content;
-    margin-left:auto;
-    margin-right:auto;
-    float:left" src="https://64.media.tumblr.com/bef7f5ac47837b2f65592419fdf63ab9/tumblr_oxgex2WFKA1s8tgw5o1_500.gif" >
-    <span data-text="${message}"></span>
+    <!-- <div style="display:inline-block;
+                width:min-content;
+                margin-left:auto;
+                margin-right:auto;
+                float:left"> -->
+    <div style="text-align: center;">
+        
+            <div style="display:inline-block;float:left">
+            <img  src="https://64.media.tumblr.com/bef7f5ac47837b2f65592419fdf63ab9/tumblr_oxgex2WFKA1s8tgw5o1_500.gif" >
+            </div>
     
-    <form style="float:left;margin-top: 20%;justify-content: center;" action="accessgranted">
-        <input type="text" name="password" placeholder="knock knock">
-        <input type="submit" value="enter">
-    </form>
-    </div>
+        <!-- <form style="float:left;margin-top: 30%;justify-content: center;" action="accessgranted">
+            <input  type="text" name="password" placeholder="knock knock">
+            <input type="submit" value="enter">
+        </form> -->
+
+    <form action="accessgranted" class="row g-3" style="margin-top:20%;display:inline-block;float:left;vertical-align: middle;">
+        <div class="col-auto" style="display:inline-block;float:left">
+          <input type="password" name="password" class="form-control" id="inputPassword2" placeholder="Password">
+        </div>
+        <div class="col-auto" style="display:inline-block;float:left">
+          <button type="submit" style="background-color:blueviolet;" class="btn btn-success btn-primary mb-3">enter</button>
+        </div>
+      </form>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 </html>
