@@ -163,7 +163,7 @@ public class currencyWeatherController {
                     SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
                     Date date = new Date(System.currentTimeMillis());
                     formatter.format(date);
-                    formatter.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+                    formatter.setTimeZone(TimeZone.getTimeZone("GMT+8"));
                     String[] temp = (date + "").split(" ");
                     int HH = Integer.parseInt(temp[3].substring(0, 2));
 
@@ -171,7 +171,7 @@ public class currencyWeatherController {
                     end = ((HashMap<String,String>)forecastObj.getPeriods().get(i).get("time")).get("end");
 
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
-                    df.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+                    df.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 
                     startPeriod = null;
                     endPeriod = null;
@@ -233,7 +233,7 @@ public class currencyWeatherController {
             }
 
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
-            df.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+            df.setTimeZone(TimeZone.getTimeZone("GMT+8"));
             startPeriod = null;
             endPeriod = null;
             String startPeriodStr = "";
@@ -274,7 +274,7 @@ public class currencyWeatherController {
     //Helper class for above method
     public Date[] getStartandEnd(String start, String end) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
-        df.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+        df.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         Date startPeriod = null;
         Date endPeriod = null;
         try {
