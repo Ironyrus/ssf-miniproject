@@ -102,10 +102,12 @@ public class weatherService {
             case "Light Rain":
                 return "https://www.nea.gov.sg/assets/images/icons/weather-bg/LR.png";
 
-
             case "Cloudy":
                 return "https://www.nea.gov.sg/assets/images/icons/weather-bg/CL.png";
         
+            case "Moderate Rain":
+                return "https://www.nea.gov.sg/assets/images/icons/weather-bg/RA.png";
+
             default:
                 return "No weather data found - check url";
         }
