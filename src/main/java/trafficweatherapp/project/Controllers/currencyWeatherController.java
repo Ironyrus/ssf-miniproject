@@ -654,9 +654,11 @@ public class currencyWeatherController {
                 //Else If username exists but contents are empty, populate username with new options
                 ArrayList<String> keys = service.getKeys();
                 if(!keys.contains(username)) {
-                    service.saveOptions(username, new options(userCameras));
+                    options opt = new options(userCameras);
+                    service.saveOptions(username, opt);
                 } else if (service.getOptions(username).getOptions().isEmpty() && keys.contains(username)) { 
-                    service.saveOptions(username, new options(userCameras));
+                    options opt = new options(userCameras);
+                    service.saveOptions(username, opt);
                 } 
                 // else if(keys.contains(username)){
                 //     options currentOptions = service.getOptions(username);
