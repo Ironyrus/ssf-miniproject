@@ -693,7 +693,7 @@ public class currencyWeatherController {
         if(details.isPresent()){
             boolean flag = false;
             for (options each : optionsArray) {
-                if(each.getOption().equals(options.getOption()))
+                if(each.getOption().trim().equals(options.getOption().trim()))
                     flag = true; //If flag is true, option to add already exists.
             }
             if(flag == false){
