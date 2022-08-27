@@ -705,13 +705,13 @@ public class currencyWeatherController {
 
         if(!(options.getDelete() == null)){ //Delete button pressed
             for (int i = 0; i < optionsArray.size(); i++) {
-                if(optionsArray.get(i).getOption().equals(options.getOption())){
+                if(optionsArray.get(i).getOption().trim().equals(options.getOption().trim())){
                     optionsArray.remove(i);
                 }
             }
         } else if (!(options.getSortup() == null)) { //Sort up button pressed
             for (int i = 0; i < optionsArray.size(); i++) {
-                if(optionsArray.get(i).getOption().equals(options.getOption())){
+                if(optionsArray.get(i).getOption().trim().equals(options.getOption().trim())){
                     if(i > 0){
                         options temp = optionsArray.get(i-1);
                         optionsArray.set(i-1, optionsArray.get(i));
