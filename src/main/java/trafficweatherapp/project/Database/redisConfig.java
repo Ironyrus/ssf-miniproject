@@ -28,9 +28,9 @@ public class redisConfig {
     @Value("${spring.redis.port}")
     private Optional<Integer> redisPort;
     
-    @Value("${spring.redis.password}")
-    private String redisPassword;
-    // private String redisPassword = System.getenv("REDIS_API_KEY");
+    // @Value("${spring.redis.password}")
+    // private String redisPassword;
+    private String redisPassword = System.getenv("REDIS_API_KEY");
 
     // @Bean
     // @Scope("singleton")

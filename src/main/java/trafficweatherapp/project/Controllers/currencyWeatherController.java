@@ -42,10 +42,10 @@ import trafficweatherapp.project.Services.weatherService;
 public class currencyWeatherController {
 
     private String currApiKey = System.getenv("FIXER_API_KEY");
-    // private String key = System.getenv("MYVERYOWN_API_KEY");
-    String key = "poncoco";
-    // private String googApiKey = System.getenv("GOOGLE_API_KEY");
-    String googApiKey="AIzaSyCCUlFKP1vQQfII96xT6CYiOV2Vx20drdc";
+    private String key = System.getenv("MYVERYOWN_API_KEY");
+    // String key = "";
+    private String googApiKey = System.getenv("GOOGLE_API_KEY");
+    // String googApiKey="";
     
     @Autowired
     redisService service;
