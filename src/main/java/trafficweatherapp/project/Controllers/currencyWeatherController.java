@@ -682,7 +682,7 @@ public class currencyWeatherController {
                     List<options> current = service.getOptions(username).getOptions();
                     for (options option : current) {
                         for (options optionListopt : optionList) {
-                            if(option.getOption().contains(optionListopt.getOption())){
+                            if(option.getOption().trim().contains(optionListopt.getOption().trim())){
                                 option.setImgUrl(optionListopt.getImgUrl());
                                 option.setTimestamp(optionListopt.getTimestamp());
                             }   
