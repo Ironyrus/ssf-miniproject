@@ -1,5 +1,10 @@
 package trafficweatherapp.project.Services;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class dateTimeService {
     
     public dateTimeService() {
@@ -85,10 +90,23 @@ public class dateTimeService {
         } else {
             if(HH == 12)
                 ampm = "pm";
+            // if(HH == 00){
+            //     HH = 12;
+            //     ampm = "am";
+            // }
             else
                 ampm = "am";
         }
         
-        return HH + time.substring(2) + ampm;
+        return HH + time.substring(2, 5) + " " + ampm;
+    }
+
+    public String getCurrentDay() {
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        System.out.println(new SimpleDateFormat("HH:mm", Locale.ENGLISH).format(date));
+        System.out.println(new SimpleDateFormat("EE", Locale.ENGLISH).format(date.getTime()));
+        System.out.println(new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime()));
+        return new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
     }
 }

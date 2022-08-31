@@ -2,25 +2,86 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Weather Now</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <h1>Weather Now</h1>
+<body style="margin:auto">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#" style="margin-left:10px;color:blueviolet;font-weight: bold;">Weather and Traffic Cam</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#" style="font-weight:700;">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="dashboard">Dashboard</a>
+            </li>
+
+            <!-- User dropdown -->
+            <li class="nav-item dropdown" >
+              <a class="nav-link dropdown-toggle"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Users
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown"  >
+                
+                <form action="dashboardSave" th:each="eaOption : *{users}" method="post">
+                    <button th:text="${eaOption}"  type="submit" class="dropdown-item"></button>
+                    <input class="form-check-input" type="checkbox" name="id" style="display:none" th:value="test" checked />  
+                    <input type="hidden" name="username" th:value="${eaOption}">
+                </form>
+                
+                <!-- <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a> -->
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0" th:action="dashboardSave" method="post">
+            <input class="form-check-input" type="checkbox" name="id" style="display:none" th:value="test" checked />  
+            <div style="display:flex;width:400px;line-height: 15px;">
+                <input class="form-control mr-sm-2" type="text" name="username" placeholder="Username" aria-label="Search">
+                
+                <button style="font-weight:bolder" class="btn btn-outline-success my-2 my-sm-0" type="submit">Retrieve user dashboard</button>
+            </div>
+            </form>
+        </div>
+      </nav>
+
+    <h1 style="display:flex;justify-content: center;color:blueviolet">Weather Now</h1>
     <h2 style="display:flex;justify-content: center;">24-hour weather forecast</h2>
 
-    <form action="accessgranted">
-    <input type="hidden" name="password" value="poncoco">
-    <button name="timeOfDay" value="morning"><span th:text="${button1}"></span></button>
-    <button name="timeOfDay" value="afternoon"><span th:text="${button2}"></span></button>  
-    <button name="timeOfDay" value="night"><span th:text="${button3}"></span></button>
-    </form>
-    <p>Valid period:</p>
-    <p th:text="${startPeriod}"></p>
-    <p th:text="${endPeriod}"></p>
     <div style="display:flex;justify-content: center;">
+        <form action="accessgranted">
+            <input type="hidden" name="password" value="poncoco">
+            <button name="timeOfDay" value="morning"><span th:text="${button1}"></span></button>
+            <button name="timeOfDay" value="afternoon"><span th:text="${button2}"></span></button>  
+            <button name="timeOfDay" value="night"><span th:text="${button3}"></span></button>
+        </form>
+    </div>
+
+    <div style="display:grid;justify-content: center;padding:5px">
+        <p>Valid period:</p>
+        <p th:text="${startPeriod}"></p>
+        <p th:text="${endPeriod}"></p>
+    </div>
+
+    <!-- Google Map -->
+    <div id="map"></div>
+
+    <!-- Weather Icons -->
+    <div class="weathericon" style="display:flex;justify-content: center;">
         <img src="https://www.nea.gov.sg/assets/images/map/sg-map-weather-forecast.png" alt="Sg Map">
         <img th:src="${url0}" class="northSg" alt="northIcon">
         <img th:src="${url1}" class="southSg" alt="southIcon">
@@ -28,95 +89,105 @@
         <img th:src="${url3}" class="eastSg" alt="eastIcon">
         <img th:src="${url4}" class="westSg" alt="westIcon">
     </div>
-    
-    
-    <br><br>
-    <div style="float:left;padding:5px;background-color: gainsboro;width:min-content">
-    All Cameras:
     <br>
-    <div class="dropdown">
-        <!-- <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Show Traffic Cameras
-          </button> -->
-        <form   action="#"
-                th:action="@{/showTrafficCam}"
-                th:object="${options}"
-                method="post"
-                class="dropdown-menu">
-
-    <!-- 3.1 Option without selection -->
-    <!-- https://www.baeldung.com/thymeleaf-select-option -->
-    <select th:field="*{option}" style="width:400px;margin:2px;padding:10px" >  <!-- th:field value maps to POJO -->
-        <option  value="0">select option</option>
-        <!-- th:value will be returned to controller, will return to attribute mapped by th:field -->
-        <option th:each="eaOption : *{options}" th:value="${eaOption.option}"><span th:text="${eaOption.getOption()}" class="dropdown-item"></span></option>
-    </select>
-    <input type="submit" value="show traffic camera" style="margin:2px" />
-    <input type="hidden" name="imgSize" value="400px" />
-    </form>
-</div>
-</div>
-
-<div style="padding:5px;float:left;background-color: gainsboro;width:400px;">
-    Popular Cameras:
     <br>
-    <div class="dropdown">
-        <!-- <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Show Traffic Cameras
-          </button> -->
-        <form
-    action="#"
-    th:action="@{/showTrafficCam}"
-    th:object="${options}"
-    method="post"
-    class="dropdown-menu">
+    <div style="display:flex;justify-content: center;width:auto">
+        <br>
+        <div class="dropdown" style="display:inline-block;width:33%">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                All Cameras:
+            </button>
+            <form   action="#"
+                    th:action="@{/showTrafficCam}"
+                    th:object="${options}"
+                    method="post"
+                    class="dropdown-menu">
 
-    <!-- 3.1 Option without selection -->
-    <!-- https://www.baeldung.com/thymeleaf-select-option -->
-    <select th:field="*{option}" style="width:400px;margin:2px;padding:10px">  <!-- th:field value maps to POJO -->
-        <option  value="0" >select option</option>
-        <!-- th:value will be returned to controller, will return to attribute mapped by th:field -->
-        <option th:each="eaOption : *{options}" th:value="${eaOption.option}"><span th:text="${eaOption.getOption()}" class="dropdown-item"></span></option>
-    </select>        
-    <input type="submit" value="show traffic camera" style="margin:2px" />
-    <input type="hidden" name="imgSize" value="400px" />
-    </form>
-</div>
-</div>
-<div style="padding:5px;float:left;background-color: gainsboro;width:400px;">
-    Checkpoint:
-    <br>
-    <div class="dropdown">
-        <!-- <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Show Traffic Cameras
-          </button> -->
-        <form
-    action="#"
-    th:action="@{/showTrafficCam}"
-    th:object="${checkpointOptions}"
-    method="post"
-    class="dropdown-menu">
+                <!-- 3.1 Option without selection -->
+                <!-- https://www.baeldung.com/thymeleaf-select-option -->
+                <select th:field="*{option}" style="width:400px;margin:2px;padding:10px" class="dropdown-item">  <!-- th:field value maps to POJO -->
+                    <option  value="0" class="dropdown-item">select option</option>
+                    <!-- th:value will be returned to controller, will return to attribute mapped by th:field -->
+                    <option class="dropdown-item" th:each="eaOption : *{options}" th:value="${eaOption.option}"><span th:text="${eaOption.getOption()}" class="dropdown-item"></span></option>
+                </select>
+                <input type="submit" value="show traffic camera" style="margin:2px" />
+                <input type="hidden" name="imgSize" value="400px" />
+            </form>
+        </div>
+    <!-- </div> -->
 
-    <!-- 3.1 Option without selection -->
-    <!-- https://www.baeldung.com/thymeleaf-select-option -->
-    <select th:field="*{option}" style="width:400px;margin:2px;padding:10px">  <!-- th:field value maps to POJO -->
-        <option  value="0" >select option</option>
-        <!-- th:value will be returned to controller, will return to attribute mapped by th:field -->
-        <option th:each="eaOption : *{options}" th:value="${eaOption.option}"><span th:text="${eaOption.getOption()}" class="dropdown-item"></span></option>
-    </select>        
-    <input type="submit" value="show traffic camera" style="margin:2px" />
-    <input type="hidden" name="imgSize" value="400px" />
-    </form>
-</div>
-</div>
+    <!-- <div style="padding:5px;float:left;background-color: gainsboro;width:400px;"> -->
+        <div class="dropdown" style="display:inline-block;width:33%">
+            <button button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Popular Cameras:
+            </button>
+            <form
+            action="#"
+            th:action="@{/showTrafficCam}"
+            th:object="${options}"
+            method="post"
+            class="dropdown-menu"
+            aria-labelledby="navbarDropdown">
 
-<br><br><br><br>
-<br><br>
-<div style="padding:10px;display: block;">
-<form th:action="dashboard">
-    <input type="submit" value="Go to Dashboard" />
-</form>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-</body>
+            <!-- 3.1 Option without selection -->
+            <!-- https://www.baeldung.com/thymeleaf-select-option -->
+            <select th:field="*{option}" style="width:400px;margin:2px;padding:10px">  <!-- th:field value maps to POJO -->
+                <option  value="0" >select option</option>
+                <!-- th:value will be returned to controller, will return to attribute mapped by th:field -->
+                <option th:each="eaOption : *{options}" th:value="${eaOption.option}"><span th:text="${eaOption.getOption()}" class="dropdown-item"></span></option>
+            </select>        
+                <input type="submit" value="show traffic camera" style="margin:2px" />
+                <input type="hidden" name="imgSize" value="400px" />
+            </form>
+        </div>
+    <!-- </div> -->
+    <!-- <div style="padding:5px;float:left;background-color: gainsboro;width:400px;"> -->
+        <div class="dropdown" style="display:inline-block;width:auto;width:33%">
+            <button button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Checkpoint:
+            </button>
+            <form
+            action="#"
+            th:action="@{/showTrafficCam}"
+            th:object="${checkpointOptions}"
+            method="post"
+            class="dropdown-menu">
+
+            <!-- 3.1 Option without selection -->
+            <!-- https://www.baeldung.com/thymeleaf-select-option -->
+            <select th:field="*{option}" style="width:400px;margin:2px;padding:10px">  <!-- th:field value maps to POJO -->
+                <option  value="0" >select option</option>
+                <!-- th:value will be returned to controller, will return to attribute mapped by th:field -->
+                <option th:each="eaOption : *{options}" th:value="${eaOption.option}"><span th:text="${eaOption.getOption()}" class="dropdown-item"></span></option>
+            </select>        
+                <input type="submit" value="show traffic camera" style="margin:2px" />
+                <input type="hidden" name="imgSize" value="400px" />
+            </form>
+        </div>
+    </div>
+
+        <br><br><br><br>
+        <br><br>
+        <div style="padding:10px;display: block;">
+        <form th:action="dashboard">
+            <input type="submit" value="Go to Dashboard" />
+        </form>
+        </div>
+
+        <!-- Add dynamic Google maps using Javascript -->
+        <script type="text/javascript" th:src="@{script.js}"></script>
+        <script th:inline="javascript">
+            var northSg =   [[ ${url0} ]];
+            var southSg =   [[ ${url1} ]];
+            var centralSg = [[ ${url2} ]];
+            var eastSg =    [[ ${url3} ]];
+            var westSg =    [[ ${url4} ]];
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
+        <script src="script.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCUlFKP1vQQfII96xT6CYiOV2Vx20drdc&map_ids=cb4462ae0d7b039a&callback=initMap"></script>
+    </body>
 </html>

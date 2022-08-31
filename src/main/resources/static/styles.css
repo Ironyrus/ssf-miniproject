@@ -1,10 +1,7 @@
 body {
     background-color: powderblue;
   }
-h1 {
-    color: Red;
-    size:5px;
-  }
+
 p {
     color: blue;
   }
@@ -18,7 +15,7 @@ p {
   display:inline;
   } */
 
-  div {
+  .weathericon {
     position: relative;
     display: inline;
   } 
@@ -55,4 +52,13 @@ p {
     position: absolute;
     right: 25%;
     bottom: 325px;
+  }
+
+  .navbar-nav > li{
+    margin-left:30px;
+    margin-right:30px;
+  }
+
+  #map {
+    height: 60vh;
   }

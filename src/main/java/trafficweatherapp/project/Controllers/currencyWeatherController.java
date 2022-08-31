@@ -42,10 +42,10 @@ import trafficweatherapp.project.Services.weatherService;
 public class currencyWeatherController {
 
     private String currApiKey = System.getenv("FIXER_API_KEY");
-    private String key = System.getenv("MYVERYOWN_API_KEY");
-    // String key = "";
-    private String googApiKey = System.getenv("GOOGLE_API_KEY");
-    // String googApiKey="";
+    // private String key = System.getenv("MYVERYOWN_API_KEY");
+    String key = "poncoco";
+    // private String googApiKey = System.getenv("GOOGLE_API_KEY");
+    String googApiKey="AIzaSyCCUlFKP1vQQfII96xT6CYiOV2Vx20drdc";
     
     @Autowired
     redisService service;
@@ -59,7 +59,9 @@ public class currencyWeatherController {
     @GetMapping("/accessgranted")
     public String getHome(Model model, @RequestParam("password") String password,
                                         @RequestParam("timeOfDay") Optional<String> timeOfDay) {
-        
+        ArrayList<String> users = service.getKeys();
+        model.addAttribute("users", users);
+
         if(timeOfDay.isPresent()){
             weatherService nService = new weatherService();
             Object[] weatherRegions = nService.get24hrForecast();
@@ -293,8 +295,20 @@ public class currencyWeatherController {
                     tempStart = startPeriodStr.split(" ");
                     tempEnd = endPeriodStr.split(" ");
 
+                    System.out.println(tempStart[3]);
+                        System.out.println(tempEnd[3]);
+                        System.out.println(i);
+                        System.out.println("---");
+                    if(tempStart[3].contains("0:00") & tempEnd[3].contains("6") & i==0){
+                        System.out.println(tempStart[3]);
+                        System.out.println(tempEnd[3]);
+                        System.out.println(i);
+                        System.out.println("---");
+                    }
+                    
+
                     //Between 6am and 12pm
-                    if(6 <= HH & HH <= 12 & tempStart[3].contains("6") & tempEnd[3].contains("12")){
+                    if(6 <= HH & HH <= 12 & tempStart[3].contains("6") & tempEnd[3].contains("12") & i==0){
                         model.addAttribute("url" + j, w[j]);
                         model.addAttribute("button1", "Morning");
                         model.addAttribute("button2", "Afternoon");
@@ -314,7 +328,7 @@ public class currencyWeatherController {
                         if(count == 4)
                             break;
                     //Between 12am and 6am
-                    } else if(tempStart[3].contains("0:00:00") & tempEnd[3].contains("6")) {
+                    } else if(tempStart[3].contains("0:00") & tempEnd[3].contains("6") & i==0) {
                         model.addAttribute("url" + j, w[j]);
                         model.addAttribute("button1", "Night");
                         model.addAttribute("button2", "Morning");
@@ -471,7 +485,8 @@ public class currencyWeatherController {
     public String showTrafficCam(Model model,
                                 @ModelAttribute options options,
                                 @RequestParam String imgSize) {
-        // System.out.println("TEST: " + options.getOptionNearbyLocations() + options.getOption() + options.getOptions());
+        ArrayList<String> users = service.getKeys();
+        model.addAttribute("users", users);
 
         egg egg = new egg();
         HashMap camera = egg.getTrafficImage(options.getOption());
@@ -568,6 +583,9 @@ public class currencyWeatherController {
 
     @RequestMapping("dashboard")
     public String getDashboard(Model model) {
+        ArrayList<String> users = service.getKeys();
+        model.addAttribute("users", users);
+
         egg egg = new egg();
 
         //Populating option list with image URLs and timestamp
@@ -576,12 +594,16 @@ public class currencyWeatherController {
         ArrayList<HashMap> map = (ArrayList<HashMap>)camera.get("cameras"); 
         for (int i = 0; i < map.size(); i++) {
             for (int j = 0; j < map.size(); j++) {
-                if(optionList.get(i).getOption().contains((String)map.get(j).get("camera_id"))){
+                if(optionList.get(i).getOption().contains(((String)map.get(j).get("camera_id")).trim())){
                     optionList.get(i).setImgUrl((String)map.get(j).get("image"));
                     optionList.get(i).setTimestamp((String)map.get(j).get("timestamp"));
+                    System.out.println(optionList.get(i).getOption());
+                    System.out.println(map.get(j).get("camera_id"));
+                    System.out.println(map.get(j).get("image"));                    
+                    System.out.println(map.get(j).get("timestamp"));
+                    System.out.println("---");
                 }
             }
-            // System.out.println(optionList.get(i).getImgUrl());
         }
         List<options> option1 = new ArrayList<>();
         List<options> option2 = new ArrayList<>();
@@ -614,6 +636,9 @@ public class currencyWeatherController {
                 @RequestParam("id") List<String> valuesFromCheckbox,
                 @RequestParam("username") String username,
                 @ModelAttribute options options) {
+                
+                ArrayList<String> users = service.getKeys();
+                model.addAttribute("users", users);
                 
                 //Service object
                 egg egg = new egg();
@@ -650,33 +675,43 @@ public class currencyWeatherController {
                     }                    
                 }
 
-                //If username exists, do not save new options and display existing ones
-                //Else If username exists but contents are empty, populate username with new options
+                //Check whether username input exists
                 ArrayList<String> keys = service.getKeys();
-                if(!keys.contains(username)) {
-                    options opt = new options(userCameras);
-                    service.saveOptions(username, opt);
-                } else if ((service.getOptions(username).getOptions().isEmpty()) & keys.contains(username)) { 
-                    options opt = new options(userCameras);
-                    service.saveOptions(username, opt);
-                } 
-                // else if(keys.contains(username)){
-                //     options currentOptions = service.getOptions(username);
-                //     List<options> optionsArray = currentOptions.getOptions();
-                //     List<options> optionsArray2 = new ArrayList<>();
+                if(keys.contains(username)){
+                    //If username exists, do not save new options and display existing ones
+                    List<options> current = service.getOptions(username).getOptions();
+                    for (options option : current) {
+                        for (options optionListopt : optionList) {
+                            if(option.getOption().contains(optionListopt.getOption())){
+                                option.setImgUrl(optionListopt.getImgUrl());
+                                option.setTimestamp(optionListopt.getTimestamp());
+                            }   
+                        }
+                    }
+                    service.saveOptions(username, new options(current));
+                }
 
-                //     for (options option : optionsArray) { //For each current option
-                //         for (int i = 0; i < optionList.size(); i++){
-                //             if(optionList.get(i).getOption().equals(option.getOption())){
-                //                 optionsArray2.add(optionList.get(i));
-                //             }
-                //         }
-                //     }
-                //     service.saveOptions(username, new options(optionsArray2));
-                // }
+                
 
-                //Get data from Redis
-                options gotOption = service.getOptions(username);
+                //Else If username exists but contents are empty, populate username with new options
+                options gotOption;
+                //If username isn't blank
+                if(!username.equals("")){
+                    //If keys does not contain username
+                    if(!keys.contains(username)) {
+                        options opt = new options(userCameras);
+                        service.saveOptions(username, opt);
+                        //If keys contain username but checkbox not chosen
+                    } else if ((service.getOptions(username).getOptions().isEmpty())) { 
+                        options opt = new options(userCameras);
+                        service.saveOptions(username, opt);
+                    }
+                    //Get data from Redis
+                    gotOption = service.getOptions(username);
+                } else { //If username is blank
+                    model.addAttribute("message", "Username cannot be blank");
+                    gotOption = new options();
+                }
 
                 model.addAttribute("username", username);
                 model.addAttribute("userCameras", new options(gotOption.getOptions()));
@@ -685,9 +720,15 @@ public class currencyWeatherController {
 
     @RequestMapping("dashboardSave/{username}")
     public String getUser(Model model, @PathVariable String username, @ModelAttribute options options, @RequestParam("details") Optional<String> details) {
+        ArrayList<String> users = service.getKeys();
+        model.addAttribute("users", users);
+
+        List<options> optionsArray = new ArrayList<>();
         
         options gotOption = service.getOptions(username);
-        List<options> optionsArray = gotOption.getOptions();
+        
+        if(gotOption != null)
+            optionsArray = gotOption.getOptions();
 
         //If user added a camera
         if(details.isPresent()){
@@ -698,6 +739,7 @@ public class currencyWeatherController {
             }
             if(flag == false){
                 optionsArray.add(options);
+                model.addAttribute("message", "Camera ID " + options.getOption() + " successfully added.");
             } else {
                 model.addAttribute("message", "Error: Camera ID " + options.getOption() + " is already present.");
             }
@@ -709,6 +751,7 @@ public class currencyWeatherController {
                     optionsArray.remove(i);
                 }
             }
+            model.addAttribute("message", "Camera ID " + options.getOption() + " successfully deleted.");
         } else if (!(options.getSortup() == null)) { //Sort up button pressed
             for (int i = 0; i < optionsArray.size(); i++) {
                 if(optionsArray.get(i).getOption().trim().equals(options.getOption().trim())){
@@ -716,6 +759,7 @@ public class currencyWeatherController {
                         options temp = optionsArray.get(i-1);
                         optionsArray.set(i-1, optionsArray.get(i));
                         optionsArray.set(i, temp);
+                        model.addAttribute("message", "Camera ID " + options.getOption() + " sorted up.");
                     }
                 }
             }
@@ -765,18 +809,4 @@ public class currencyWeatherController {
         model.addAttribute("userCameras", new options(gotOption.getOptions()));
         return "User";
     }
-
-    // @PostMapping("gogSubmit")
-    // public String gogSubmit(Model model,
-    //                         @ModelAttribute options options,
-    //                         @RequestParam("details") Boolean details,
-    //                         @RequestParam String imgSize) {
-    //     List<options> optionList = getCameraList();
-    //     System.out.println(details);
-    //     System.out.println(options.getOption().trim());
-    //     System.out.println(options.toString());
-    //     model.addAttribute("height", imgSize);
-
-    //     return "showTrafficCam";
-    // }
 }
