@@ -2,9 +2,12 @@ package trafficweatherapp.project.Services;
 
 import java.util.HashMap;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StopWatch;
 import org.springframework.web.client.RestTemplate;
+import java.util.ArrayList;
 
 import trafficweatherapp.project.Models.forecastObj24h;
+import trafficweatherapp.project.Models.forecastObj2h;
 
 public class weatherService {
 
@@ -18,8 +21,25 @@ public class weatherService {
     public weatherService() {
     }
 
-    public void get2hrForecast() {
+    public forecastObj2h get2hrForecast() {
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<forecastObj2h> responseEntity =
+        template.getForEntity("https://api.data.gov.sg/v1/environment/2-hour-weather-forecast",
+            forecastObj2h.class);
 
+        forecastObj2h forecastObj =(forecastObj2h)responseEntity.getBody();
+        ArrayList<HashMap> forecast = (ArrayList<HashMap>)forecastObj.getItems().get(0).getForecasts();
+        ArrayList<HashMap> metadata = forecastObj.getArea_metadata();
+        for (int i = 0; i < metadata.size(); i++) {
+            System.out.println(metadata.get(i).get("name")); //Ang Mo Kio
+            HashMap coords = (HashMap)metadata.get(i).get("label_location");
+            Double latitude = (Double)coords.get("latitude");
+            Double longitude = (Double)coords.get("longitude");
+            System.out.println(latitude + ", " + longitude);
+            System.out.println(forecast.get(i).get("forecast"));
+
+        }
+        return forecastObj;
     }
     
     public Object[] get24hrForecast() {
@@ -100,6 +120,9 @@ public class weatherService {
                 return "https://www.nea.gov.sg/assets/images/icons/weather-bg/HR.png";
 
             case "Light Rain":
+                return "https://www.nea.gov.sg/assets/images/icons/weather-bg/LR.png";
+
+            case "Showers":
                 return "https://www.nea.gov.sg/assets/images/icons/weather-bg/LR.png";
 
             case "Cloudy":

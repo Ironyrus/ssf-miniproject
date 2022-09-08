@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import trafficweatherapp.project.Database.redisService;
 import trafficweatherapp.project.Models.forecastObj24h;
+import trafficweatherapp.project.Models.forecastObj2h;
 import trafficweatherapp.project.Models.options;
 import trafficweatherapp.project.Models.weatherObj;
 import trafficweatherapp.project.Services.dateTimeService;
@@ -61,9 +62,33 @@ public class currencyWeatherController {
                                         @RequestParam("timeOfDay") Optional<String> timeOfDay) {
         ArrayList<String> users = service.getKeys();
         model.addAttribute("users", users);
+        weatherService nService = new weatherService();
+        
+        //Get all traffic camera information
+        egg egg = new egg();
+        HashMap camHash = egg.getTrafficImage("test");
+        ArrayList<HashMap> trafficCams = (ArrayList<HashMap>)camHash.get("cameras");
+        model.addAttribute("camera", trafficCams);
+
+        //Get forecast for next two hours
+        forecastObj2h forecastObj2h = nService.get2hrForecast(); //Object for 2hr
+        String timestamp = forecastObj2h.getItems().get(0).getTimestamp();
+        ArrayList<HashMap> forecast = (ArrayList<HashMap>)forecastObj2h.getItems().get(0).getForecasts();
+        ArrayList<HashMap> metadata = forecastObj2h.getArea_metadata();
+        for (int i = 0; i < metadata.size(); i++) {
+            String area = (String)metadata.get(i).get("name");               //Ang Mo Kio
+            HashMap coords = (HashMap)metadata.get(i).get("label_location"); 
+            Double latitude = (Double)coords.get("latitude");                //lat
+            Double longitude = (Double)coords.get("longitude");              //lon
+            String coordinates = latitude + ", " + longitude;                    //lat, lon
+            String forecast2h = (String)forecast.get(i).get("forecast");
+            String url = nService.getUrl(forecast2h);
+            forecast.get(i).put("url", url);
+        }
+        forecastObj2h.setForecasts(forecast);
+        model.addAttribute("hhObj", forecastObj2h);
 
         if(timeOfDay.isPresent()){
-            weatherService nService = new weatherService();
             Object[] weatherRegions = nService.get24hrForecast();
 
             //To get valid start and end periods
@@ -217,7 +242,6 @@ public class currencyWeatherController {
             }
 
         } else {
-            weatherService nService = new weatherService();
             Object[] weatherRegions = nService.get24hrForecast();
 
             //To get valid start and end periods
@@ -238,7 +262,7 @@ public class currencyWeatherController {
                 String[] w = (String[])weatherRegions[i]; 
                 for (int j = 0; j < w.length; j++) {
                     //Getting current date and time
-                    egg egg = new egg();
+                    egg = new egg();
                     HashMap camera = egg.getTrafficImage("test"); //Getting SGT from LTA traffic cam timestamps - If not Heroku server defaults to UTC
                     ArrayList<HashMap> cameras = (ArrayList<HashMap>)camera.get("cameras");
                     String timeNow = (String)cameras.get(0).get("timestamp");
@@ -294,19 +318,7 @@ public class currencyWeatherController {
                     //Getting HH from forecastObj 
                     tempStart = startPeriodStr.split(" ");
                     tempEnd = endPeriodStr.split(" ");
-
-                    System.out.println(tempStart[3]);
-                        System.out.println(tempEnd[3]);
-                        System.out.println(i);
-                        System.out.println("---");
-                    if(tempStart[3].contains("0:00") & tempEnd[3].contains("6") & i==0){
-                        System.out.println(tempStart[3]);
-                        System.out.println(tempEnd[3]);
-                        System.out.println(i);
-                        System.out.println("---");
-                    }
                     
-
                     //Between 6am and 12pm
                     if(6 <= HH & HH <= 12 & tempStart[3].contains("6") & tempEnd[3].contains("12") & i==0){
                         model.addAttribute("url" + j, w[j]);
@@ -597,11 +609,6 @@ public class currencyWeatherController {
                 if(optionList.get(i).getOption().contains(((String)map.get(j).get("camera_id")).trim())){
                     optionList.get(i).setImgUrl((String)map.get(j).get("image"));
                     optionList.get(i).setTimestamp((String)map.get(j).get("timestamp"));
-                    System.out.println(optionList.get(i).getOption());
-                    System.out.println(map.get(j).get("camera_id"));
-                    System.out.println(map.get(j).get("image"));                    
-                    System.out.println(map.get(j).get("timestamp"));
-                    System.out.println("---");
                 }
             }
         }

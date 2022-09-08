@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import trafficweatherapp.project.Models.geoloc;
-import trafficweatherapp.project.Models.googCode;
+import trafficweatherapp.project.Models.forecastObj2h;
 import trafficweatherapp.project.Models.trafficCamObj;
 import trafficweatherapp.project.Models.weatherObj;
 
@@ -36,7 +36,7 @@ public class egg {
 	trafficCamObj trafficCamObj;
 
 	@Autowired
-	googCode googCode;
+	forecastObj2h googCode;
 
 	public egg(String country) {
 		this.country = country;
