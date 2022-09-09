@@ -31,13 +31,10 @@ public class weatherService {
         ArrayList<HashMap> forecast = (ArrayList<HashMap>)forecastObj.getItems().get(0).getForecasts();
         ArrayList<HashMap> metadata = forecastObj.getArea_metadata();
         for (int i = 0; i < metadata.size(); i++) {
-            System.out.println(metadata.get(i).get("name")); //Ang Mo Kio
+            // System.out.println(metadata.get(i).get("name")); //Ang Mo Kio
             HashMap coords = (HashMap)metadata.get(i).get("label_location");
             Double latitude = (Double)coords.get("latitude");
             Double longitude = (Double)coords.get("longitude");
-            System.out.println(latitude + ", " + longitude);
-            System.out.println(forecast.get(i).get("forecast"));
-
         }
         return forecastObj;
     }

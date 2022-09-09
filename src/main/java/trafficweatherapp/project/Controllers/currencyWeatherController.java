@@ -66,7 +66,17 @@ public class currencyWeatherController {
         
         //Get all traffic camera information
         egg egg = new egg();
+        List<options> optionList = getCameraList();
         HashMap camHash = egg.getTrafficImage("test");
+        ArrayList<HashMap> map = (ArrayList<HashMap>)camHash.get("cameras"); 
+        for (int i = 0; i < map.size(); i++) {
+            for (int j = 0; j < map.size(); j++) {
+                if(optionList.get(i).getOption().contains(((String)map.get(j).get("camera_id")).trim())){
+                    map.get(j).put("name", optionList.get(i).getOption());
+                }
+            }
+        }
+
         ArrayList<HashMap> trafficCams = (ArrayList<HashMap>)camHash.get("cameras");
         model.addAttribute("camera", trafficCams);
 
@@ -84,6 +94,7 @@ public class currencyWeatherController {
             String forecast2h = (String)forecast.get(i).get("forecast");
             String url = nService.getUrl(forecast2h);
             forecast.get(i).put("url", url);
+            System.out.println(forecastObj2h.getItems().get(0).getValid_period().get("start"));
         }
         forecastObj2h.setForecasts(forecast);
         model.addAttribute("hhObj", forecastObj2h);
@@ -385,7 +396,7 @@ public class currencyWeatherController {
             // tempEnd = endPeriodStr.split(" ");
         }
 
-        List<options> optionList = getCameraList();
+        optionList = getCameraList();
 
         List<options> popularOptionList = new ArrayList<>();
         for (int k = 0; k < optionList.size(); k++) {

@@ -61,7 +61,8 @@ function initMap(){
                           trafficCams[i].lat,
                           trafficCams[i].long,
                           trafficCams[i].image,
-                          trafficCams[i].timestamp]);
+                          trafficCams[i].timestamp,
+                          trafficCams[i].name]);
     }
     for(let i = 0; i < trafficCameras.length; i++){
         const currMarker = trafficCameras[i];
@@ -70,7 +71,7 @@ function initMap(){
         const marker= new google.maps.Marker({
             position: { lat: latitude , lng: longitude },
             map,
-            title: currMarker[0],
+            title: currMarker[5],
             icon: {
                 url: "trafficSmall.png",
             },
@@ -85,12 +86,13 @@ function initMap(){
     var stMarkersVisible = [];
     for(let i = 0; i < 1; i++){
         for(let j = 0; j < 47; j++){
-        // console.log(locationForecast[i].forecasts[j].area);
-        // console.log(locationForecast[i].forecasts[j].forecast);
-        // console.log(locationForecast[i].forecasts[j].url);
-        // console.log(locationMetadata[j].label_location.latitude);
-        // console.log(locationMetadata[j].label_location.longitude);
-        // console.log("----");
+            console.log(locationForecast[i]);
+        console.log(locationForecast[i].forecasts[j].area);
+        console.log(locationForecast[i].forecasts[j].forecast);
+        console.log(locationForecast[i].forecasts[j].url);
+        console.log(locationMetadata[j].label_location.latitude);
+        console.log(locationMetadata[j].label_location.longitude);
+        console.log("----");
         shorttermMarkersArray.push([locationForecast[i].forecasts[j].area, 
                                     locationForecast[i].forecasts[j].forecast,
                                     locationMetadata[j].label_location.latitude,
@@ -189,9 +191,21 @@ function createCenterControl(map) {
   
     // Setup the click event listeners: simply set the map to Chicago.
     controlButton.addEventListener("click", () => {
-        for(let i = 0; i < trafficMarks.length; i++){
-            const currMarker = trafficMarks[i];
-            if(currMarker.visible == true){
+        var flag = true;
+
+            for(let i = 0; i < trafficMarks.length; i++){
+                const currMarker = trafficMarks[i];
+                if(currMarker.visible == true){
+                    currMarker.setVisible(false);
+                } else {
+                    currMarker.setVisible(true);
+                    flag = false; //If traffic visible, weather not visible
+                }
+            }
+
+        for(let i = 0; i < stMarkersVisible.length; i++){
+            const currMarker = stMarkersVisible[i];
+            if(flag == false){
                 currMarker.setVisible(false);
             } else {
                 currMarker.setVisible(true);
@@ -246,8 +260,8 @@ function createCenterControl(map) {
             var camImg = trafficCameras[i][3];
           const infowindow = new google.maps.InfoWindow({
         height: "300px",
-         content: '<div style="height:300px"><Strong>Map ID:</Strong> ' + trafficCameras[i][0] + '<br>' +
-         '<img height="300px" src=' + trafficCameras[i][3] + '></img></div><br><a href="http://www.google.com">Link</a>',
+         content: '<div><h2>'+ trafficCameras[i][5] + '</h2><h3><Strong>Map ID:</Strong> ' + trafficCameras[i][0] + '</h3><br><br>' +
+         '<img height="300px" src=' + trafficCameras[i][3] + '></img></div><br><br><a href="https://iconscout.com/icons/camera" target="_blank">Camera Icon</a> by <a href="https://iconscout.com/contributors/icon-mafia" target="_blank">Icon Mafia</a>',
      });
        currMarker.addListener("click", () => {
            infowindow.open({
