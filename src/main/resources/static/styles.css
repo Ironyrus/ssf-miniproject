@@ -1,19 +1,35 @@
 body {
-    background-color: powderblue;
+    background-color: white;
   }
 
-p {
-    color: blue;
-  }
+a.nav {
+  color: black;
+}
 
-/* img {  
-  size: 400px;
-  height:70%; 
-  width: 70%; 
-  border: solid 2px orange;
-  position:relative;
-  display:inline;
-  } */
+a.navCurr {
+  text-decoration: underline;  
+  text-decoration-thickness: 2px; 
+  color:Green;
+  font-size: large;
+}
+
+a.navCurr:hover {
+  background-color: rgb(41, 134, 1);
+  border: solid 2px rgb(41, 134, 1);
+  color: rgb(255,255,255);
+  /* 41, 134, 1 Green*/
+  border-radius: 6px;
+  line-height: normal;
+}
+
+a.nav:hover {
+  background-color: rgb(41, 134, 1);
+  border: solid 2px rgb(41, 134, 1);
+  color: white;
+  /* 41, 134, 1 Green*/
+  border-radius: 6px;
+  line-height: normal;
+}
 
   .weathericon {
     position: relative;
@@ -62,3 +78,9 @@ p {
   #map {
     height: 100vh;
   }
+
+  .scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}

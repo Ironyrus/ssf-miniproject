@@ -105,28 +105,36 @@ public class weatherService {
 
         switch (weather) {
             case "Partly Cloudy (Day)":
-                return "https://www.nea.gov.sg/assets/images/icons/weather-bg/PC.png";
+                return "/animated/cloudy-day-3.svg";
+                // return "https://www.nea.gov.sg/assets/images/icons/weather-bg/PC.png";
 
             case "Partly Cloudy (Night)":
-                return "https://www.nea.gov.sg/assets/images/icons/weather-bg/PN.png";
+                return "/animated/cloudy-night-3.svg";
+                // return "https://www.nea.gov.sg/assets/images/icons/weather-bg/PN.png";
 
             case "Thundery Showers":
-                return "https://www.nea.gov.sg/assets/images/icons/weather-bg/TL.png";
+                return "/animated/thunder.svg";
+                // return "https://www.nea.gov.sg/assets/images/icons/weather-bg/TL.png";
 
             case "Heavy Rain":
-                return "https://www.nea.gov.sg/assets/images/icons/weather-bg/HR.png";
+                return "/animated/rainy-6.svg";
+                // return "https://www.nea.gov.sg/assets/images/icons/weather-bg/HR.png";
 
             case "Light Rain":
-                return "https://www.nea.gov.sg/assets/images/icons/weather-bg/LR.png";
+                return "/animated/rainy-5.svg";
+                // return "https://www.nea.gov.sg/assets/images/icons/weather-bg/LR.png";
 
             case "Showers":
-                return "https://www.nea.gov.sg/assets/images/icons/weather-bg/LR.png";
+                return "/animated/rainy-3.svg";
+                // return "https://www.nea.gov.sg/assets/images/icons/weather-bg/LR.png";
 
             case "Cloudy":
-                return "https://www.nea.gov.sg/assets/images/icons/weather-bg/CL.png";
+                return "/animated/cloudy.svg";
+                // return "https://www.nea.gov.sg/assets/images/icons/weather-bg/CL.png";
         
             case "Moderate Rain":
-                return "https://www.nea.gov.sg/assets/images/icons/weather-bg/RA.png";
+                return "/animated/rainy-5.svg";
+                // return "https://www.nea.gov.sg/assets/images/icons/weather-bg/RA.png";
 
             default:
                 return "No weather data found - check url";

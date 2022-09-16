@@ -7,7 +7,11 @@
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro">
     <style>
+        .crimson {
+            font-family: 'Crimson Pro', serif;
+        }
         .floatH{
             position:fixed;
             width:60px;
@@ -22,15 +26,15 @@
         }
         .floatS{
             position:fixed;
-            width:60px;
+            /* width:60px;
             height:60px;
             bottom:120px;
-            right:40px;
-            background-color:#0C9;
+            right:40px; */
+            /* background-color:#0C9; */
             color:#FFF;
-            border-radius:50px;
+            /* border-radius:50px; */
             text-align:center;
-            box-shadow: 2px 2px 3px #999;
+            /* box-shadow: 2px 2px 3px #999; */
         }
         /* Customize the label (the container) */
 .container {
@@ -106,7 +110,8 @@
 
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-      <a class="navbar-brand" href="accessgranted?password=poncoco" style="margin-left:10px;color:blueviolet;font-weight: bold;">Weather and Traffic Cam</a>
+      <a class="navbar-brand" href="accessgranted?password=poncoco" style="margin-left:10px;color:green;font-weight: bold;">Weather and Traffic Cam</a>
+      <img src="/animated/weather.svg">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -114,18 +119,18 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="accessgranted?password=poncoco">Home</span></a>
+            <a class="nav-link nav" href="accessgranted?password=poncoco">Home</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="dashboard" style="font-weight:700;">Dashboard</a>
+            <a class="nav-link navCurr" href="dashboard">Dashboard</a>
           </li>
 
           <!-- User dropdown -->
           <li class="nav-item dropdown" >
-            <a class="nav-link dropdown-toggle"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle nav"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Users
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown"  >
+            <div class="dropdown-menu scrollable-menu" aria-labelledby="navbarDropdown"  >
               
               <form action="dashboardSave" th:each="eaOption : *{users}" method="post">
                   <button th:text="${eaOption}"  type="submit" class="dropdown-item"></button>
@@ -140,7 +145,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
+            <a class="nav-link nav" href="REST">REST</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" th:action="dashboardSave" method="post">
@@ -154,22 +159,24 @@
     </nav>
 
     <div style="margin-left:20px;margin-top:10px">
-        <a href="#bottom" style="background-color:rgb(75, 97, 236);width:max-content" class="btn btn-primary mb-3">Go to Bottom</a>
+        <a href="#bottom" style="background-color:rgb(41, 134, 1);width:max-content;margin-top: 5px;" class="btn btn-primary mb-3">Go to Bottom</a>
         <h1 style="color:red"><span th:text="${message}"></span></h1>
         <form
         th:action="@{/dashboardSave}"
         method="post"
         style="margin-top:0px">
     <!-- FIRST TABLE -->
-    <table class="table table-bordered table-light" 
+    <table class="table table-bordered table-light crimson" 
     style="width:min-content;
             margin-left:auto;
             margin-right:auto;
-            float:left;">
+            float:left;
+            font-size: 20px;
+            border:solid black 3px;">
         <tr th:each="eaOption : *{options1.options}">
             <ul >
                 <td >
-                    Camera Id:
+                    Camera ID:
                     <code><li class="list-group-item"><span th:text="${eaOption.option}"></span></li></code>
                     <br>
                     Nearby Locations:
@@ -190,14 +197,18 @@
         
     </table>
     <!-- SECOND TABLE -->
-    <table class="table table-bordered table-light" 
+    <table class="table table-bordered table-light crimson" 
         style="width:min-content;margin-left:auto;
         margin-right:auto;
-        float:left">
+        float:left;
+        font-size: 20px;
+        border-top: solid black 3px;
+        border-bottom: solid black 3px;
+        border-right: solid black 3px;">
         <tr th:each="eaOption : *{options2.options}">
             <ul >
                 <td>
-                    Camera Id:
+                    Camera ID:
                     <code><li class="list-group-item"><span th:text="${eaOption.option}"></span></li></code>
                     <br>
                     Nearby Locations:
@@ -221,29 +232,38 @@
             </ul>
         </tr>
     </table>
-    <button class="floatH" style="bottom:200px;right:150px;border-radius:0px;">GO</button>
+    <!-- <button class="floatH" style="bottom:200px;right:150px;border-radius:0px;">GO</button> -->
     <div class="form-floating mb-3" style="width:250px;position:fixed;top:90px;right:10px;">
         <input type="text" class="form-control" name="username" id="floatingInput" placeholder="Username" />
         <label for="floatingInput">Username</label>
-        <button style="background-color:rgb(75, 97, 236);width:max-content" class="btn btn-success btn-primary mb-3" >
-            Submit
+        <button  style="background-color:rgb(41, 134, 1);width:max-content;position:fixed;top:160px;right:120px;" 
+                 class="btn btn-success btn-primary mb-3" >
+            Save dashboard
         </button>  
     </div>   
     
     <div style="width:250px;position:relative;bottom:5px;left:5px;">
-        <a href="#top" id="bottom" style="background-color:rgb(75, 97, 236);width:max-content" class="btn btn-primary mb-3">Go to Top</a>
+        <!-- Previously: RGB Purple 75, 97, 236 -->
+        <a href="#top" id="bottom" style="background-color:rgb(41, 134, 1);width:max-content" class="btn btn-primary mb-3">Go to Top</a>
     </div>
 
     </form>
     </div>
 
     <br><br>
-    <form action="/">    
+    <!-- <form action="/">    
         <button class="floatH">Home</button>
     </form>
     <form action="/">    
         <button class="floatS">Save</button>
-    </form>
+    </form> -->
+    <div class="crimson" style="width:250px;position:fixed;top:205px;right:40px;">
+      <ul style="list-style-type:none">
+        <li>Step 1. Fill up username</li>
+        <li>Step 2. Click on desired cameras</li>
+        <li>Step 3. Submit!</li>
+      </ul>
+    </div>
 
     <!-- style tag overwrites the style tags in <head> -->
     <!-- <div class="floatH" style="bottom:210px;right:150px;border-radius:0px;">

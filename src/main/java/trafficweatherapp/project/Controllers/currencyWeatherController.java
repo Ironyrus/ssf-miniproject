@@ -53,7 +53,6 @@ public class currencyWeatherController {
 
     @GetMapping("/")
     public String block(Model model) {
-
         return "preindex";
     }
 
@@ -71,20 +70,24 @@ public class currencyWeatherController {
         ArrayList<HashMap> map = (ArrayList<HashMap>)camHash.get("cameras"); 
         for (int i = 0; i < map.size(); i++) {
             for (int j = 0; j < map.size(); j++) {
-                if(optionList.get(i).getOption().contains(((String)map.get(j).get("camera_id")).trim())){
+                if(optionList.get(i).getOption().contains(((String)map.get(j).get("camId")).trim())){
                     map.get(j).put("name", optionList.get(i).getOption());
+                }
+                if(((String)map.get(j).get("timestamp")).contains("+08:00")){
+                    String[] formattedDT = getStartandEnd((String)map.get(j).get("timestamp"), (String)map.get(j).get("timestamp"));
+                    map.get(j).put("timestamp", formattedDT[0]);
                 }
             }
         }
-
         ArrayList<HashMap> trafficCams = (ArrayList<HashMap>)camHash.get("cameras");
-        model.addAttribute("camera", trafficCams);
+        model.addAttribute("camera", map);
 
         //Get forecast for next two hours
         forecastObj2h forecastObj2h = nService.get2hrForecast(); //Object for 2hr
         String timestamp = forecastObj2h.getItems().get(0).getTimestamp();
         ArrayList<HashMap> forecast = (ArrayList<HashMap>)forecastObj2h.getItems().get(0).getForecasts();
         ArrayList<HashMap> metadata = forecastObj2h.getArea_metadata();
+        String[] startEnd;
         for (int i = 0; i < metadata.size(); i++) {
             String area = (String)metadata.get(i).get("name");               //Ang Mo Kio
             HashMap coords = (HashMap)metadata.get(i).get("label_location"); 
@@ -94,7 +97,10 @@ public class currencyWeatherController {
             String forecast2h = (String)forecast.get(i).get("forecast");
             String url = nService.getUrl(forecast2h);
             forecast.get(i).put("url", url);
-            System.out.println(forecastObj2h.getItems().get(0).getValid_period().get("start"));
+            startEnd = getStartandEnd((String)forecastObj2h.getItems().get(0).getValid_period().get("start"), 
+            (String)forecastObj2h.getItems().get(0).getValid_period().get("end"));
+            forecast.get(i).put("start", startEnd[0]);
+            forecast.get(i).put("end", startEnd[1]);
         }
         forecastObj2h.setForecasts(forecast);
         model.addAttribute("hhObj", forecastObj2h);
@@ -330,8 +336,18 @@ public class currencyWeatherController {
                     tempStart = startPeriodStr.split(" ");
                     tempEnd = endPeriodStr.split(" ");
                     
-                    //Between 6am and 12pm
-                    if(6 <= HH & HH <= 12 & tempStart[3].contains("6") & tempEnd[3].contains("12") & i==0){
+                    for (String str : tempStart) {
+                        System.out.println(str);
+                    }
+                    System.out.println("---");
+                    System.out.println(HH);
+                    for (String str : tempEnd) {
+                        System.out.println(str);
+                    }
+                    System.out.println("---");
+
+                    //Between 12am and 12pm
+                    if(HH <= 12 & tempStart[3].contains("6") & tempEnd[3].contains("6")){
                         model.addAttribute("url" + j, w[j]);
                         model.addAttribute("button1", "Morning");
                         model.addAttribute("button2", "Afternoon");
@@ -351,7 +367,7 @@ public class currencyWeatherController {
                         if(count == 4)
                             break;
                     //Between 12am and 6am
-                    } else if(tempStart[3].contains("0:00") & tempEnd[3].contains("6") & i==0) {
+                    } else if(tempStart[3].contains("12") & tempEnd[3].contains("6") & i==0) {
                         model.addAttribute("url" + j, w[j]);
                         model.addAttribute("button1", "Night");
                         model.addAttribute("button2", "Morning");
@@ -360,9 +376,9 @@ public class currencyWeatherController {
                         model.addAttribute("endPeriod", endPeriodStr);
                         if(count == 4)
                             break;
-                    //Between 6pm and 6am                    
+                    //Between 6pm and 12am                    
                     } 
-                    else if ((18 <= HH || HH <= 6) & tempStart[3].contains("6") & tempEnd[3].contains("6")){ 
+                    else if ((18 <= HH) & tempStart[3].contains("6") & tempEnd[3].contains("6")){ 
                         model.addAttribute("url" + j, w[j]);
                         model.addAttribute("button1", "Night");
                         model.addAttribute("button2", "Morning");
@@ -418,7 +434,6 @@ public class currencyWeatherController {
     public String[] getStartandEnd(String start, String end) {
 
         dateTimeService dt = new dateTimeService();
-
         String[] startTimestamp = start.split("T");
         String starttempDate = startTimestamp[0]; //2022-08-26
         String tempStart1 = dt.dateFormat(starttempDate);
@@ -826,5 +841,13 @@ public class currencyWeatherController {
         model.addAttribute("username", username);
         model.addAttribute("userCameras", new options(gotOption.getOptions()));
         return "User";
+    }
+
+    @RequestMapping("REST")
+    public String getREST(Model model) {
+        ArrayList<String> users = service.getKeys();
+        model.addAttribute("users", users);
+        
+        return "REST";
     }
 }

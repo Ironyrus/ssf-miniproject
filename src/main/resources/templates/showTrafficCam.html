@@ -7,12 +7,19 @@
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
       <link th:href="styles.css" rel="stylesheet" /> <!-- CSS files must be under static folder -->
       <script type="text/javascript" th:src="@{actions.js}"></script>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro">
+      <style>
+          .crimson {
+              font-family: 'Crimson Pro', serif;
+          }
+      </style>
     </head>
     <body>
 
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-      <a class="navbar-brand" href="accessgranted?password=poncoco" style="margin-left:10px;color:blueviolet;font-weight: bold;">Weather and Traffic Cam</a>
+      <a class="navbar-brand" href="accessgranted?password=poncoco" style="margin-left:10px;color:green;font-weight: bold;">Weather and Traffic Cam</a>
+      <img src="/animated/weather.svg">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -20,18 +27,18 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="accessgranted?password=poncoco">Home</a>
+            <a class="nav-link nav" href="accessgranted?password=poncoco">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="dashboard">Dashboard</a>
+            <a class="nav-link nav" href="dashboard">Dashboard</a>
           </li>
 
           <!-- User dropdown -->
           <li class="nav-item dropdown" >
-            <a style="font-weight:700;" class="nav-link dropdown-toggle"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a style="font-weight:700;" class="nav-link dropdown-toggle navCurr"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Users
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown"  >
+            <div class="dropdown-menu scrollable-menu" aria-labelledby="navbarDropdown"  >
               
               <form action="dashboardSave" th:each="eaOption : *{users}" method="post">
                   <button th:text="${eaOption}"  type="submit" class="dropdown-item"></button>
@@ -46,7 +53,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
+            <a class="nav-link nav" href="REST">REST</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" th:action="dashboardSave" method="post">
@@ -58,7 +65,7 @@
           </form>
       </div>
     </nav>
-    <div style="margin-left:20px;margin-top:10px">
+    <div style="margin-left:20px;margin-top:10px;justify-content: center;align-items: center;">
     <!-- If no option selected, inform users and provide a button to go back -->
         <span th:if="${options.option == '0'}">
             <h1 style="color:red"><span th:text="${message}"></span></h1>
@@ -68,49 +75,51 @@
                 </input>
             </form>
         </span>
+      <div class="crimson" style="font-size:20px;justify-content: center;display:grid; align-items: left;">
+           <br><span style="font:sans serif; color:black" th:text="${camLocation}"></span><br>
+          <span style="font:sans serif; color:black">Nearby Locations: </span>
+          <span style="font:sans serif; color:black" th:text="${nearbyLocations}"></span><br>
+          <p style="font:sans serif; color:black">Image Size: <span th:text="${height}"></span></p><br>
+      </div>
 
-          <p>Camera View: </p>
-          <p th:text="${camLocation}"></p>
-          <p>Nearby Locations: </p>
-          <p th:text="${nearbyLocations}"></p>
-        
-        <p>Image Size: <span th:text="${height}"></span></p>
-        <form   action="#"
-                th:action="@{/showTrafficCam}" 
-                method="post" 
-                th:object="${options}">
-                    <input type="hidden" th:field="*{option}" th:value="${camLocation}" />
-                    <input type="hidden" name="imgSize" value="100px" />
-                    <input type="submit" value="small" />
-        </form>
-        <form   action="#"
-                th:action="@{/showTrafficCam}" 
-                method="post" 
-                th:object="${options}">
-                    <input type="hidden" th:field="*{option}" th:value="${camLocation}" />
-                    <input type="hidden" name="imgSize" value="400px" />
-                    <input type="submit" value="regular" />
-        </form>
-        <form   action="#"
-                th:action="@{/showTrafficCam}" 
-                method="post" 
-                th:object="${options}">
-                    <input type="hidden" th:field="*{option}" th:value="${camLocation}" />
-                    <input type="hidden" name="imgSize" value="auto" />
-                    <input type="submit" value="original" />
-        </form>
+        <div style="justify-content:center;display:flex;font-size:20px" class="crimson">
+          <form   action="#"
+                  th:action="@{/showTrafficCam}" 
+                  method="post" 
+                  th:object="${options}">
+                      <input type="hidden" th:field="*{option}" th:value="${camLocation}" />
+                      <input type="hidden" name="imgSize" value="100px" />
+                      <input type="submit" value="small" />
+          </form>
+          <form   action="#"
+                  th:action="@{/showTrafficCam}" 
+                  method="post" 
+                  th:object="${options}">
+                      <input type="hidden" th:field="*{option}" th:value="${camLocation}" />
+                      <input type="hidden" name="imgSize" value="400px" />
+                      <input type="submit" value="regular" />
+          </form>
+          <form   action="#"
+                  th:action="@{/showTrafficCam}" 
+                  method="post" 
+                  th:object="${options}">
+                      <input type="hidden" th:field="*{option}" th:value="${camLocation}" />
+                      <input type="hidden" name="imgSize" value="auto" />
+                      <input type="submit" value="original" />
+          </form>
+        </div>
 
-        <br><br>
-
-        <div id="logo"><img th:src="${image}" id="logo" th:height="${height}" /></div>
-        <p th:text="${timestamp}"></p>
         <br>
 
-          <h2>Map View:</h2>
+        <div style="margin-right: auto;margin-left: auto;"><img style="margin-right: auto;margin-left: auto;border-radius:10px;justify-content: center;align-items: center;display: flex;" th:src="${image}" th:height="${height}" /></div>
+        <div class="crimson" style="font-size:20px;display:grid;justify-content: center;align-items: left;">Timestamp:  <span style="font:sans serif;color: black" th:text="${timestamp}"></span></div>
+        <br>
+
+          <h3 class="crimson">Map View:</h3>
           <iframe
               width="600"
               height="450"
-              style="border:0;"
+              style="border:0;border-radius:10px;justify-content: center;"
               loading="lazy"
               allowfullscreen
               referrerpolicy="no-referrer-when-downgrade"
@@ -122,7 +131,7 @@
           <iframe
             width="600"
             height="450"
-            style="border:0;"
+            style="border:0;border-radius:10px;justify-content: center;"
             loading="lazy"
             allowfullscreen
             referrerpolicy="no-referrer-when-downgrade"
@@ -135,17 +144,17 @@
             <iframe
                 width="600"
                 height="450"
-                style="border:0;"
+                style="border:0;border-radius:10px;justify-content: center;"
                 loading="lazy"
                 allowfullscreen
                 referrerpolicy="no-referrer-when-downgrade"
                 th:src="@{${'https://www.google.com/maps/embed/v1/directions' + '?origin=johorbahruciq&destination=place_id:ChIJcax8Ev0S2jER7fTRxrPHz2w' + '&key=' + apikey}}">
             </iframe>
         </span> 
-        <br>
-        <form action="/" style="display:block;float:none;margin-left: 50px;">    
+        <br><br>
+        <!-- <form action="/" style="display:block;float:none;margin-left: 50px;">    
             <button>Home</button>
-        </form>
+        </form> -->
     </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

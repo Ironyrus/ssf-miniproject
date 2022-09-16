@@ -86,18 +86,21 @@ function initMap(){
     var stMarkersVisible = [];
     for(let i = 0; i < 1; i++){
         for(let j = 0; j < 47; j++){
-            console.log(locationForecast[i]);
-        console.log(locationForecast[i].forecasts[j].area);
-        console.log(locationForecast[i].forecasts[j].forecast);
-        console.log(locationForecast[i].forecasts[j].url);
-        console.log(locationMetadata[j].label_location.latitude);
-        console.log(locationMetadata[j].label_location.longitude);
-        console.log("----");
+        // console.log(locationForecast[i].forecasts[j].area);
+        // console.log(locationForecast[i].forecasts[j].forecast);
+        // console.log(locationForecast[i].forecasts[j].url);
+        // console.log(locationForecast[i].forecasts[j].start);
+        // console.log(locationForecast[i].forecasts[j].end);
+        // console.log(locationMetadata[j].label_location.latitude);
+        // console.log(locationMetadata[j].label_location.longitude);
+        // console.log("----");
         shorttermMarkersArray.push([locationForecast[i].forecasts[j].area, 
                                     locationForecast[i].forecasts[j].forecast,
                                     locationMetadata[j].label_location.latitude,
                                     locationMetadata[j].label_location.longitude,
-                                    locationForecast[i].forecasts[j].url]);
+                                    locationForecast[i].forecasts[j].url,
+                                    locationForecast[i].forecasts[j].start,
+                                    locationForecast[i].forecasts[j].end]);
         }
     }
 
@@ -185,11 +188,11 @@ function createCenterControl(map) {
     controlButton.style.padding = "0 5px";
     controlButton.style.textAlign = "center";
   
-    controlButton.textContent = "Toggle Traffic Cam";
-    controlButton.title = "Click to recenter the map";
+    controlButton.textContent = "Toggle Traffic Cam | Recenter Map";
+    controlButton.title = "Toggle between Traffic Camera and Weather";
     controlButton.type = "button";
   
-    // Setup the click event listeners: simply set the map to Chicago.
+    // Setup the click event listeners: toggle between showing area weather and traffic cams.
     controlButton.addEventListener("click", () => {
         var flag = true;
 
@@ -211,6 +214,16 @@ function createCenterControl(map) {
                 currMarker.setVisible(true);
             }
         }
+
+        zoomLevel = map.getZoom();
+        for(let i = 0; i < markersArray.length; i++){
+            const currMarker = markersArray[i];
+            if(flag == false & zoomLevel <= 11){
+                currMarker.setVisible(false);
+            } 
+        }
+
+        map.setCenter({lat:1.355678, lng:103.818053});
     });
   
     return controlButton;
@@ -218,12 +231,9 @@ function createCenterControl(map) {
 
   const contentString = '<h1>hello</h1><img src="https://www.nea.gov.sg/assets/images/icons/weather-bg/LR.png"></img>'
 
-  
-
   //NSEW Large Icons - Clickable Map Icons
   for(let i = 0; i < markersArray.length; i++){
       const currMarker = markersArray[i];
-      // currMarker.setVisible(false);
       const infowindow = new google.maps.InfoWindow({
         content: currMarker.title,
     });
@@ -234,14 +244,26 @@ function createCenterControl(map) {
             shouldFocus: false,
           });
         });
+
+        var prev_infowindow =false; 
+
+        google.maps.event.addListener(currMarker, 'click', function(){
+            if( prev_infowindow ) {
+               prev_infowindow.close();
+            }
+            
+            prev_infowindow = infowindow;
+            infowindow.open(map, currMarker);
+        });
   }
 
   //Icons by neighbourhood - Clickable Map Icons
   for(let i = 0; i < stMarkersVisible.length; i++){
 
     const currMarker = stMarkersVisible[i];
+    const timeMarker = shorttermMarkersArray[0];
     const infowindow = new google.maps.InfoWindow({
-        content: currMarker.icon.url,
+        content: '<p style="color:black"><strong>Validity</strong></p><p>From: ' + timeMarker[5] + '<p/><p>To: ' + timeMarker[6] + '</p>',
     });
       currMarker.addListener("click", () => {
           infowindow.open({
@@ -250,18 +272,47 @@ function createCenterControl(map) {
             shouldFocus: false,
           });
         });
+
+        var prev_infowindow =false; 
+
+        google.maps.event.addListener(currMarker, 'click', function(){
+            if( prev_infowindow ) {
+               prev_infowindow.close();
+            }
+    
+            prev_infowindow = infowindow;
+            infowindow.open(map, currMarker);
+        });
     }
 
 
     //Getting traffic camera clickable information
-    console.log(trafficCameras[0]);
     for(let i = 0; i < trafficMarks.length; i++){
         const currMarker = trafficMarks[i];
-            var camImg = trafficCameras[i][3];
-          const infowindow = new google.maps.InfoWindow({
+        const timeMarker = shorttermMarkersArray[0];
+        var camImg = trafficCameras[i][3];
+        var substring = "Error Detected. Might be an issue with the API.";
+        if(trafficCameras[i][5] == null){
+            console.log(trafficCameras[i][0]);
+            console.log(trafficCameras[i][1]);
+            console.log(trafficCameras[i][2]);
+            console.log(trafficCameras[i][3]);
+            console.log(trafficCameras[i][4]);
+            console.log(trafficCameras[i][5]);
+            console.log("true");   
+        }
+        if(trafficCameras[i][5].length > 1){
+            substring = trafficCameras[i][5].substring(7);
+        } else {
+            substring = "Error Detected";
+        };
+        const infowindow = new google.maps.InfoWindow({
         height: "300px",
-         content: '<div><h2>'+ trafficCameras[i][5] + '</h2><h3><Strong>Map ID:</Strong> ' + trafficCameras[i][0] + '</h3><br><br>' +
-         '<img height="300px" src=' + trafficCameras[i][3] + '></img></div><br><br><a href="https://iconscout.com/icons/camera" target="_blank">Camera Icon</a> by <a href="https://iconscout.com/contributors/icon-mafia" target="_blank">Icon Mafia</a>',
+        content: '<div><h2 style="color:purple;font:sans serif">'+  substring
+        + '</h2><h4 style="color:purple;font:sans serif"><Strong>Camera ID:</Strong> ' 
+        + trafficCameras[i][0] + '</h4><br><p style="color:purple;font:sans serif">Timestamp: </p>' +
+        trafficCameras[i][4] + '<br><img height="300px" style="border:solid 1px black" src=' + trafficCameras[i][3] 
+        + '></img></div><br><br><a href="https://iconscout.com/icons/camera" target="_blank">Camera Icon</a> by <a href="https://iconscout.com/contributors/icon-mafia" target="_blank">Icon Mafia</a>'
      });
        currMarker.addListener("click", () => {
            infowindow.open({
@@ -270,6 +321,17 @@ function createCenterControl(map) {
              shouldFocus: false,
            });
          });
+
+         var prev_infowindow =false; 
+
+        google.maps.event.addListener(currMarker, 'click', function(){
+            if( prev_infowindow ) {
+               prev_infowindow.close();
+            }
+    
+            prev_infowindow = infowindow;
+            infowindow.open(map, currMarker);
+        });
     }
 }
 

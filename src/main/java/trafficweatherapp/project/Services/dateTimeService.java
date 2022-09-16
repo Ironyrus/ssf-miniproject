@@ -88,14 +88,18 @@ public class dateTimeService {
             HH = HH - 12;
             ampm = "pm";
         } else {
+            ampm = "am";
             if(HH == 12)
                 ampm = "pm";
             // if(HH == 00){
             //     HH = 12;
             //     ampm = "am";
             // }
-            else
+            else if(HH == 00) {
+                HH = 12;
                 ampm = "am";
+            }
+                
         }
         
         return HH + time.substring(2, 5) + " " + ampm;
