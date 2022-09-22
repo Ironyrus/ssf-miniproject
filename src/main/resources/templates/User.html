@@ -32,8 +32,8 @@
 
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark" style="background-color: white;">
-        <a class="navbar-brand" th:href="@{../accessgranted?password=poncoco}" style="margin-left:10px;color:lightblue;font-weight: bold;font-family: trebuchet;font-size: x-large;">Weather and Traffic Cam</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" th:href="@{../accessgranted?password=poncoco}" style="margin-left:10px;color:green;font-weight: bold;">Weather and Traffic Cam</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -41,15 +41,15 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link nav" style="color:white" th:href="@{../accessgranted?password=poncoco}">Home</a>
+              <a class="nav-link nav" th:href="@{../accessgranted?password=poncoco}">Home</a>
             </li>
             <li class="nav-item">
-              <a style="color:white" class="nav-link nav" th:href="@{../dashboard}">Dashboard</a>
+              <a class="nav-link nav" th:href="@{../dashboard}">Dashboard</a>
             </li>
 
             <!-- User dropdown -->
             <li class="nav-item dropdown" >
-              <a class="nav-link dropdown-toggle navCurr" style="color:white;font-weight:700;" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle navCurr" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span th:text="${username}"></span>
               </a>
               <div class="dropdown-menu scrollable-menu" aria-labelledby="navbarDropdown">
@@ -67,7 +67,7 @@
               </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav" style="color:white" href="REST">REST</a>
+              <a class="nav-link nav" href="REST">REST</a>
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0" th:action="dashboardSave" method="post">
