@@ -289,13 +289,6 @@ public class currencyWeatherController {
                     String timeNow = (String)cameras.get(0).get("timestamp");
                     // System.out.println(timeNow); //2022-08-26T17:52:51+08:00
                     int HH = Integer.parseInt(timeNow.substring(11, 13));
-                    
-                    // SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-                    
-                    // Date date = new Date(System.currentTimeMillis());
-                    // formatter.format(date);
-                    // String[] temp = (date + "").split(" ");
-                    // int HH = Integer.parseInt(temp[3].substring(0, 2));
 
                     start = ((HashMap<String,String>)forecastObj.getPeriods().get(i).get("time")).get("start");
                     end = ((HashMap<String,String>)forecastObj.getPeriods().get(i).get("time")).get("end");
@@ -315,26 +308,6 @@ public class currencyWeatherController {
                     String tempTimeEnd = (endTimestamp[1]).substring(0, 8); //16:53:09
                     String temp2End = dt.timeFormat(tempTimeEnd);
                     String endPeriodStr = tempEnd1 + ", " + temp2End;                    
-
-                    //replace below code
-                    // String[] tempSandE = getStartandEnd(start, end);
-                    // String startPeriodStr = tempSandE[0] + "";
-                    // String endPeriodStr = tempSandE[1] + "";
-                    // DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
-                    // startPeriod = null;
-                    // endPeriod = null;
-                    // String startPeriodStr = "";
-                    // String endPeriodStr = "";
-                    // try {
-                    //     startPeriodStr = df.parse(start) + "";
-                    //     startPeriod = df.parse(start);  
-
-                    //     endPeriodStr = df.parse(end) + "";
-                    //     endPeriod = df.parse(end);  
-
-                    // } catch (ParseException e) {
-                    //     e.printStackTrace();
-                    // }
                     
                     //Getting HH from forecastObj 
                     tempStart = startPeriodStr.split(" ");
@@ -385,25 +358,6 @@ public class currencyWeatherController {
                     count++;
                 }
             }
-
-            // DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
-            // startPeriod = null;
-            // endPeriod = null;
-            // String startPeriodStr = "";
-            // String endPeriodStr = "";
-            // try {
-            //     startPeriodStr = df.parse(start) + "";
-            //     startPeriod = df.parse(start);  
-
-            //     endPeriodStr = df.parse(end) + "";
-            //     endPeriod = df.parse(end);  
-
-            // } catch (ParseException e) {
-            //     e.printStackTrace();
-            // }
-
-            // tempStart = startPeriodStr.split(" ");
-            // tempEnd = endPeriodStr.split(" ");
         }
 
         optionList = getCameraList();
@@ -439,48 +393,6 @@ public class currencyWeatherController {
         String temp2End = dt.timeFormat(tempTimeEnd);
         String endPeriodStr = tempEnd1 + ", " + temp2End;
 
-        // DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
-        // Date startP = null;
-        // Date endP = null;
-        // try {
-        //     startP = df.parse(start);  
-
-        //     endP = df.parse(end);  
-
-        // } catch (ParseException e) {
-        //     e.printStackTrace();
-        // }
-        // Date[] date = {startP, endP};
-        // // return date;
-
-        // //Date formatting
-        //     //start
-        // String[] startPeriod = (startP + "").split(" "); 
-        // //Fri Aug 26 06:00:00 SGT 2022
-        // String ampm = "";
-        // if(Integer.parseInt(startPeriod[3].substring(0,2)) < 12){
-        //     ampm = "am";
-        // } else {
-        //     ampm = "pm";
-        //     if(Integer.parseInt(startPeriod[3].substring(0,2)) >= 13){
-        //         startPeriod[3] = (Integer.parseInt(startPeriod[3].substring(0,2)) - 12) + startPeriod[3].substring(2);
-        //     }
-        // }
-        // String startReturn = startPeriod[0] + "day, " + startPeriod[2] + " " + startPeriod[1] + " " + startPeriod[5] + " " + startPeriod[3] + ampm; 
-
-        //     //end
-        // String[] endPeriod = (endP + "").split(" "); 
-        // //Fri Aug 26 06:00:00 SGT 2022
-        // String ampm2;
-        // if(Integer.parseInt(endPeriod[3].substring(0,2)) < 12){
-        //     ampm2 = "am";
-        // } else {
-        //     ampm2 = "pm";
-        //     if(Integer.parseInt(endPeriod[3].substring(0,2)) >= 13){
-        //         endPeriod[3] = (Integer.parseInt(endPeriod[3].substring(0,2)) - 12) + endPeriod[3].substring(2);
-        //     }
-        // }
-        // String endReturn = endPeriod[0] + "day, " + endPeriod[2] + " " + endPeriod[1] + " " + endPeriod[5] + " " + endPeriod[3] + ampm2;
         String[] returnDate = {startPeriodStr, endPeriodStr};
         return returnDate;
         //Date formatting
@@ -491,8 +403,6 @@ public class currencyWeatherController {
         egg egg = new egg(country);
         weatherObj weatherObj = egg.getWeather(egg.coordinates);
 
-        // System.out.println("IN GETMAPPING: " + weatherObj.getWeather().get(0));
-        // System.out.println("weatherObj: " + weatherObj.getMain());
         HashMap weatherMap = new HashMap<>();
         weatherMap = (HashMap)weatherObj.getWeather().get(0);
 
@@ -571,8 +481,6 @@ public class currencyWeatherController {
         model.addAttribute("checkpoint", options.getOption().trim());
         model.addAttribute("ciq", options.getOption().trim());
 
-        //service.deleteAll(); //works
-        // System.out.println(options.getOption());
         if(options.getOption().equals("0")){
             model.addAttribute("message", "Error: No option selected!");
         }
