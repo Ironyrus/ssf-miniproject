@@ -130,8 +130,7 @@
         </div>
     <!-- </div> -->
 
-    <!-- <div style="padding:5px;float:left;background-color: gainsboro;width:400px;"> -->
-        <div class="dropdown" style="display:inline-block;width:33%">
+        <!-- <div class="dropdown" style="display:inline-block;width:33%">
             <button button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Popular Cameras:
             </button>
@@ -145,17 +144,17 @@
 
             <!-- 3.1 Option without selection -->
             <!-- https://www.baeldung.com/thymeleaf-select-option -->
-            <select th:field="*{option}" style="width:400px;margin:2px;padding:10px">  <!-- th:field value maps to POJO -->
-                <option  value="0" >select option</option>
+            <!-- <select th:field="*{option}" style="width:400px;margin:2px;padding:10px">  <!-- th:field value maps to POJO -->
+                <!-- <option  value="0" >select option</option>
                 <!-- th:value will be returned to controller, will return to attribute mapped by th:field -->
-                <option th:each="eaOption : *{options}" th:value="${eaOption.option}"><span th:text="${eaOption.getOption()}" class="dropdown-item"></span></option>
+                <!-- <option th:each="eaOption : *{options}" th:value="${eaOption.option}"><span th:text="${eaOption.getOption()}" class="dropdown-item"></span></option>
             </select>        
                 <input type="submit" value="show traffic camera" style="margin:2px" />
                 <input type="hidden" name="imgSize" value="400px" />
             </form>
-        </div>
-    <!-- </div> -->
-    <!-- <div style="padding:5px;float:left;background-color: gainsboro;width:400px;"> -->
+        </div> -->
+
+        <!-- <div style="padding:5px;float:left;background-color: gainsboro;width:400px;"> -->
         <div class="dropdown" style="display:inline-block;width:auto;width:33%">
             <button button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Checkpoint:
