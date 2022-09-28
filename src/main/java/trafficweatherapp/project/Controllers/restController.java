@@ -46,4 +46,24 @@ public class restController {
         }
         
     }
+
+    @GetMapping(path="/REST/del/{command}", produces="application/json")
+    public ResponseEntity<String> delAllKeys(@PathVariable String command, @ModelAttribute options options) {
+        try {
+   
+            if(command.toLowerCase().equals("yes")){
+                service.deleteAll();
+            }
+            JsonObjectBuilder builder = Json.createObjectBuilder();
+            builder.add("Status: Success", "Keys deleted.");
+            JsonObject body = builder.build();
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(options.toString());
+        } catch (Exception e) {
+            JsonObjectBuilder builder = Json.createObjectBuilder();
+            builder.add("Error: Username not found, OR Redis connection interrupted.", "Cannot find user: " + username);
+            JsonObject body = builder.build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body.toString());
+        }
+        
+    }
 }
