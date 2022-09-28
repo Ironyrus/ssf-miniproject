@@ -314,9 +314,9 @@ public class currencyWeatherController {
                     tempEnd = endPeriodStr.split(" ");
 
                     //Between 12am and 12pm
-                    if(HH <= 12 & tempStart[3].contains("6") & tempEnd[3].contains("6")){
+                    if(HH < 12 & tempStart[3].contains("6") & tempEnd[3].contains("6")){
                         model.addAttribute("url" + j, w[j]);
-                        model.addAttribute("button1", "Morning " + HH);
+                        model.addAttribute("button1", "Morning ");
                         model.addAttribute("button2", "Afternoon");
                         model.addAttribute("button3", "Night");
                         model.addAttribute("startPeriod", startPeriodStr);
