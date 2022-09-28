@@ -60,7 +60,7 @@ public class restController {
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(options.toString());
         } catch (Exception e) {
             JsonObjectBuilder builder = Json.createObjectBuilder();
-            builder.add("Error: Username not found, OR Redis connection interrupted.", "Cannot find user: " + username);
+            builder.add("Error: ", "See REST page for usage");
             JsonObject body = builder.build();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body.toString());
         }
