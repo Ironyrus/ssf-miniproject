@@ -57,7 +57,7 @@ public class restController {
             JsonObjectBuilder builder = Json.createObjectBuilder();
             builder.add("Status: Success", "Keys deleted.");
             JsonObject body = builder.build();
-            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(options.toString());
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(body.toString());
         } catch (Exception e) {
             JsonObjectBuilder builder = Json.createObjectBuilder();
             builder.add("Error: ", "See REST page for usage");
