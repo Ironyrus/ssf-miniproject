@@ -18,7 +18,7 @@
 
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-      <a class="navbar-brand" href="accessgranted?password=poncoco" style="margin-left:10px;color:green;font-weight: bold;">Weather and Traffic Cam</a>
+      <a class="navbar-brand" href="/" style="margin-left:10px;color:green;font-weight: bold;">Weather and Traffic Cam</a>
       <img src="/animated/weather.svg">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -27,7 +27,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link nav" href="accessgranted?password=poncoco">Home</a>
+            <a class="nav-link nav" href="/">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link nav" href="dashboard">Dashboard</a>
@@ -69,7 +69,7 @@
     <!-- If no option selected, inform users and provide a button to go back -->
         <span th:if="${options.option == '0'}">
             <h1 style="color:red"><span th:text="${message}"></span></h1>
-            <form action="accessgranted">
+            <form action="/">
                 <input type="hidden" name="password" value="poncoco">
                     <button>Back to Home</button>
                 </input>

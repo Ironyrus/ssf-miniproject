@@ -51,14 +51,13 @@ public class currencyWeatherController {
     @Autowired
     redisService service;
 
-    @GetMapping("/")
-    public String block(Model model) {
-        return "preindex";
-    }
+    // @GetMapping("/")
+    // public String block(Model model) {
+    //     return "preindex";
+    // }
 
-    @GetMapping("/accessgranted")
-    public String getHome(Model model, @RequestParam("password") String password,
-                                        @RequestParam("timeOfDay") Optional<String> timeOfDay) {
+    @GetMapping("/")
+    public String getHome(Model model, @RequestParam("timeOfDay") Optional<String> timeOfDay) {
         ArrayList<String> users = service.getKeys();
         model.addAttribute("users", users);
         weatherService nService = new weatherService();
@@ -240,15 +239,20 @@ public class currencyWeatherController {
             String[] tempStart = startPeriodStr.split(" ");
             String[] tempEnd = endPeriodStr.split(" ");
 
-            if(tempStart[3].contains("6")&tempEnd[3].contains("6")) {
+            HashMap camera = egg.getTrafficImage("test"); //Getting SGT from LTA traffic cam timestamps - If not Heroku server defaults to UTC
+            ArrayList<HashMap> cameras = (ArrayList<HashMap>)camera.get("cameras");
+            String timeNow = (String)cameras.get(0).get("timestamp");
+            int HH = Integer.parseInt(timeNow.substring(11, 13));
+
+            if(18 <= HH & tempStart[3].contains("6")&tempEnd[3].contains("6")) {
                 model.addAttribute("button1", "Night");
                 model.addAttribute("button2", "Morning");
                 model.addAttribute("button3", "Afternoon");
-            }else if(tempStart[3].contains("6")&tempEnd[3].contains("12")){
+            }else if(HH <= 12 & tempStart[3].contains("6")&tempEnd[3].contains("12")){
                 model.addAttribute("button1", "Morning");
                 model.addAttribute("button2", "Afternoon");
                 model.addAttribute("button3", "Night");
-            } else if(tempStart[3].contains("12")&tempEnd[3].contains("6")){
+            } else if(12 <= HH & HH <= 18 & tempStart[3].contains("12")&tempEnd[3].contains("6")){
                 model.addAttribute("button1", "Afternoon");
                 model.addAttribute("button2", "Night");
                 model.addAttribute("button3", "Morning");
@@ -335,16 +339,6 @@ public class currencyWeatherController {
                     //Getting HH from forecastObj 
                     tempStart = startPeriodStr.split(" ");
                     tempEnd = endPeriodStr.split(" ");
-                    
-                    for (String str : tempStart) {
-                        System.out.println(str);
-                    }
-                    System.out.println("---");
-                    System.out.println(HH);
-                    for (String str : tempEnd) {
-                        System.out.println(str);
-                    }
-                    System.out.println("---");
 
                     //Between 12am and 12pm
                     if(HH <= 12 & tempStart[3].contains("6") & tempEnd[3].contains("6")){
@@ -424,10 +418,7 @@ public class currencyWeatherController {
         model.addAttribute("options", new options(optionList));
         model.addAttribute("checkpointOptions", new options(popularOptionList));
 
-        if(password.trim().equals(key))
-            return "index";
-        else
-            return "preindex";
+        return "index";
     }
 
     //Helper class for above method
