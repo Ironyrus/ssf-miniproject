@@ -334,7 +334,7 @@ public class currencyWeatherController {
                         if(count == 4)
                             break;
                     //Between 12am and 6am
-                    } else if(tempStart[3].contains("12") & tempEnd[3].contains("6") & i==0) {
+                    } else if(HH < 12 & tempStart[3].contains("12") & tempEnd[3].contains("6") & i==0) {
                         model.addAttribute("url" + j, w[j]);
                         model.addAttribute("button1", "Night");
                         model.addAttribute("button2", "Morning");
