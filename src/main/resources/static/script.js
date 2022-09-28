@@ -302,7 +302,7 @@ function createCenterControl(map) {
             console.log("true");   
         } else{
             if(trafficCameras[i][5].length > 1){
-            substring = trafficCameras[i][5].substring(7);
+            substring = trafficCameras[i][5].substring(6);
         } else {
             substring = "Error Detected";
         };
