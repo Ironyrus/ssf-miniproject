@@ -218,8 +218,13 @@
                     <li class="list-group-item"><span th:text="${eaOption.timestamp}"></span></li>
                 </div>
                 </td>
-                <td >                
-                    <div >
+                <td >   
+                  <div class="form-check form-switch">
+                    <!-- This empty checkbox with value=empty makes it so that there is no error if none of the boxes are checked -->
+                    <input class="form-check-input" type="checkbox" name="id" th:value="test" checked />  
+                    <input class="form-check-input" type="checkbox" name="id" th:value="${eaOption.option}" />  
+                    <label class="form-check-label" >Save</label></div>             
+                    <!-- <div >
                       
                     <label name="id" class="container" style="display:flexbox">
                         Save
@@ -227,7 +232,7 @@
                         <span class="checkmark"></span>
                     </label>
 
-                </div>
+                    </div> -->
                 </td>
             </ul>
         </tr>
