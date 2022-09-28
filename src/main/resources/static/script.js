@@ -300,12 +300,14 @@ function createCenterControl(map) {
             console.log(trafficCameras[i][4]);
             console.log(trafficCameras[i][5]);
             console.log("true");   
-        }
-        if(trafficCameras[i][5].length > 1){
+        } else{
+            if(trafficCameras[i][5].length > 1){
             substring = trafficCameras[i][5].substring(7);
         } else {
             substring = "Error Detected";
         };
+        }
+        
         const infowindow = new google.maps.InfoWindow({
         height: "300px",
         content: '<div><h2 style="color:purple;font:sans serif">'+  substring
